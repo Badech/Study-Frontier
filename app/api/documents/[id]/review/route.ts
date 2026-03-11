@@ -1,0 +1,95 @@
+/**
+ * Document Review API
+ * Sprint 06: Admin review and feedback on documents
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth/utils';
+import { documentReviewSchema } from '@/lib/validations/documents';
+
+// POST /api/documents/[id]/review - Review a document (admin only)
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  try {
+    const user = await getCurrentUser();
+    if (!user || user.role !== 'admin') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const body = await request.json();
+    
+    // Validate input
+    const validation = documentReviewSchema.safeParse({
+      documentId: id,
+      ...body,
+    });
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: validation.error.issues },
+        { status: 400 }
+      );
+    }
+
+    const { status, adminFeedback } = validation.data;
+    const supabase = await createClient();
+
+    // Update document with review
+    const { data: document, error } = await supabase
+      .from('documents')
+      .update({
+        status,
+        admin_feedback: adminFeedback,
+        reviewed_by: user.id,
+        reviewed_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select(`
+        *,
+        student:students!inner(id),
+        reviewed_by_profile:profiles!documents_reviewed_by_fkey(full_name, email)
+      `)
+      .single();
+
+    if (error) {
+      console.error('Review document error:', error);
+      return NextResponse.json(
+        { error: 'Failed to review document' },
+        { status: 500 }
+      );
+    }
+
+    // Mark uploads as reviewed
+    await supabase
+      .from('document_uploads')
+      .update({ reviewed: true })
+      .eq('document_id', id)
+      .eq('is_current', true);
+
+    // TODO: Create notification for student (Sprint 08)
+    // await createNotification({
+    //   userId: document.student.id,
+    //   type: 'document_reviewed',
+    //   title: 'Document Reviewed',
+    //   message: `Your ${document.display_name} has been ${status === 'approved' ? 'approved' : 'reviewed'}`,
+    // });
+
+    return NextResponse.json({
+      success: true,
+      data: document,
+      message: 'Document reviewed successfully',
+    });
+
+  } catch (error) {
+    console.error('Document review error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

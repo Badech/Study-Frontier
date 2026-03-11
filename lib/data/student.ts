@@ -10,12 +10,16 @@ import { createClient } from '@/lib/supabase/server';
 import type { 
   StudentDashboardData, 
   Document, 
+  DocumentUpload,
+  DocumentWithUploads,
   Task, 
   Appointment,
   Message,
   ProgressStage,
   DocumentStatusSummary,
-  StudentStage
+  StudentStage,
+  Application,
+  ApplicationWithRecommendation
 } from '@/types';
 
 /**
@@ -125,44 +129,7 @@ export async function getMissingDocuments(studentId: string): Promise<Document[]
   return data || [];
 }
 
-/**
- * Get document status summary for overview
- */
-export async function getDocumentStatusSummary(studentId: string): Promise<DocumentStatusSummary> {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from('documents')
-    .select('status')
-    .eq('student_id', studentId);
-
-  if (error || !data) {
-    return {
-      missing: 0,
-      uploaded: 0,
-      underReview: 0,
-      needsCorrection: 0,
-      approved: 0,
-    };
-  }
-
-  const summary = data.reduce((acc, doc) => {
-    if (doc.status === 'missing') acc.missing++;
-    else if (doc.status === 'uploaded') acc.uploaded++;
-    else if (doc.status === 'under_review') acc.underReview++;
-    else if (doc.status === 'needs_correction') acc.needsCorrection++;
-    else if (doc.status === 'approved') acc.approved++;
-    return acc;
-  }, {
-    missing: 0,
-    uploaded: 0,
-    underReview: 0,
-    needsCorrection: 0,
-    approved: 0,
-  });
-
-  return summary;
-}
+// Document status summary moved to Sprint 06 section below
 
 /**
  * Get upcoming appointments for student
@@ -210,39 +177,7 @@ export async function getRecentMessages(studentId: string, limit = 5): Promise<M
   return data || [];
 }
 
-/**
- * Get application summary statistics
- */
-export async function getApplicationsSummary(studentId: string) {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from('applications')
-    .select('status')
-    .eq('student_id', studentId);
-
-  if (error || !data) {
-    return {
-      total: 0,
-      inProgress: 0,
-      submitted: 0,
-      accepted: 0,
-    };
-  }
-
-  const summary = {
-    total: data.length,
-    inProgress: data.filter(a => 
-      ['not_started', 'in_preparation', 'ready_to_submit'].includes(a.status || '')
-    ).length,
-    submitted: data.filter(a => 
-      ['submitted', 'waiting_for_decision'].includes(a.status || '')
-    ).length,
-    accepted: data.filter(a => a.status === 'accepted').length,
-  };
-
-  return summary;
-}
+// Application summary moved to Sprint 06 section below
 
 /**
  * Get progress stages with current stage highlighted
@@ -334,5 +269,202 @@ export async function getStudentDashboardData(userId: string): Promise<StudentDa
     upcomingAppointments,
     recentMessages,
     applicationsSummary,
+  };
+}
+
+// ============================================================================
+// DOCUMENT MANAGEMENT - Sprint 06
+// ============================================================================
+
+/**
+ * Get all documents for a student with their uploads
+ */
+export async function getStudentDocuments(studentId: string): Promise<DocumentWithUploads[]> {
+  const supabase = await createClient();
+
+  const { data: documents, error } = await supabase
+    .from('documents')
+    .select(`
+      *,
+      uploads:document_uploads(*)
+    `)
+    .eq('student_id', studentId)
+    .order('priority', { ascending: false })
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching student documents:', error);
+    return [];
+  }
+
+  // Transform the data to match DocumentWithUploads type
+  return (documents || []).map(doc => ({
+    ...doc,
+    uploads: (doc.uploads || []).filter((upload: DocumentUpload) => upload.is_current)
+  }));
+}
+
+/**
+ * Get a single document with all its uploads (including history)
+ */
+export async function getDocumentWithHistory(documentId: string): Promise<DocumentWithUploads | null> {
+  const supabase = await createClient();
+
+  const { data: document, error } = await supabase
+    .from('documents')
+    .select(`
+      *,
+      uploads:document_uploads(*),
+      reviewed_by_profile:profiles!documents_reviewed_by_fkey(full_name, email)
+    `)
+    .eq('id', documentId)
+    .single();
+
+  if (error || !document) {
+    console.error('Error fetching document:', error);
+    return null;
+  }
+
+  return {
+    ...document,
+    uploads: (document.uploads || []).sort((a: DocumentUpload, b: DocumentUpload) => 
+      b.version - a.version
+    )
+  };
+}
+
+/**
+ * Get document status summary for a student
+ */
+export async function getDocumentStatusSummary(studentId: string): Promise<DocumentStatusSummary> {
+  const supabase = await createClient();
+
+  const { data: documents, error } = await supabase
+    .from('documents')
+    .select('status')
+    .eq('student_id', studentId);
+
+  if (error || !documents) {
+    console.error('Error fetching document statuses:', error);
+    return {
+      missing: 0,
+      uploaded: 0,
+      underReview: 0,
+      needsCorrection: 0,
+      approved: 0,
+    };
+  }
+
+  const summary: DocumentStatusSummary = {
+    missing: 0,
+    uploaded: 0,
+    underReview: 0,
+    needsCorrection: 0,
+    approved: 0,
+  };
+
+  documents.forEach(doc => {
+    switch (doc.status) {
+      case 'missing':
+        summary.missing++;
+        break;
+      case 'uploaded':
+        summary.uploaded++;
+        break;
+      case 'under_review':
+        summary.underReview++;
+        break;
+      case 'needs_correction':
+        summary.needsCorrection++;
+        break;
+      case 'approved':
+        summary.approved++;
+        break;
+    }
+  });
+
+  return summary;
+}
+
+// ============================================================================
+// APPLICATION MANAGEMENT - Sprint 06
+// ============================================================================
+
+/**
+ * Get all applications for a student
+ */
+export async function getStudentApplications(studentId: string): Promise<ApplicationWithRecommendation[]> {
+  const supabase = await createClient();
+
+  const { data: applications, error } = await supabase
+    .from('applications')
+    .select(`
+      *,
+      recommendation:school_recommendations(*)
+    `)
+    .eq('student_id', studentId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching student applications:', error);
+    return [];
+  }
+
+  return (applications || []).map(app => ({
+    ...app,
+    recommendation: app.recommendation || null
+  }));
+}
+
+/**
+ * Get a single application by ID
+ */
+export async function getApplication(applicationId: string): Promise<Application | null> {
+  const supabase = await createClient();
+
+  const { data: application, error } = await supabase
+    .from('applications')
+    .select('*')
+    .eq('id', applicationId)
+    .single();
+
+  if (error || !application) {
+    console.error('Error fetching application:', error);
+    return null;
+  }
+
+  return application;
+}
+
+/**
+ * Get application summary statistics for a student
+ */
+export async function getApplicationsSummary(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: applications, error } = await supabase
+    .from('applications')
+    .select('status')
+    .eq('student_id', studentId);
+
+  if (error || !applications) {
+    console.error('Error fetching applications:', error);
+    return {
+      total: 0,
+      inProgress: 0,
+      submitted: 0,
+      accepted: 0,
+    };
+  }
+
+  return {
+    total: applications.length,
+    inProgress: applications.filter(a => 
+      ['not_started', 'in_preparation', 'ready_to_submit'].includes(a.status)
+    ).length,
+    submitted: applications.filter(a => 
+      ['submitted', 'waiting_for_decision'].includes(a.status)
+    ).length,
+    accepted: applications.filter(a => a.status === 'accepted').length,
   };
 }

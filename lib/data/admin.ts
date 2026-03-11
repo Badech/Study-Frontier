@@ -18,7 +18,10 @@ import type {
   Task,
   Appointment,
   Document,
+  DocumentWithUploads,
+  DocumentUpload,
   Application,
+  ApplicationWithRecommendation,
 } from '@/types';
 
 // ============================================================================
@@ -419,22 +422,31 @@ export async function getStudentsByStage(
   };
 }
 
+export async function getStudentById(studentId: string) {
+  return getStudentDetail(studentId);
+}
+
 export async function getStudentDetail(studentId: string) {
   const supabase = await createClient();
 
   // Get student profile
-  const { data: student, error: studentError } = await supabase
+  const { data: studentData, error: studentError } = await supabase
     .from('students')
     .select(`
       *,
-      profiles!inner(*)
+      profile:profiles!inner(*)
     `)
     .eq('id', studentId)
     .single();
 
-  if (studentError || !student) {
+  if (studentError || !studentData) {
     return null;
   }
+
+  const student = {
+    ...studentData,
+    profile: Array.isArray(studentData.profile) ? studentData.profile[0] : studentData.profile
+  };
 
   // Get documents summary
   const { data: documents } = await supabase
@@ -642,4 +654,187 @@ export async function getRecentActivity(limit = 20): Promise<ActivityItem[]> {
   );
 
   return activities.slice(0, limit);
+}
+
+// ============================================================================
+// DOCUMENT MANAGEMENT - Sprint 06
+// ============================================================================
+
+/**
+ * Get all documents for a specific student (admin view)
+ */
+export async function getStudentDocumentsAdmin(studentId: string): Promise<DocumentWithUploads[]> {
+  const supabase = await createClient();
+
+  const { data: documents, error } = await supabase
+    .from('documents')
+    .select(`
+      *,
+      uploads:document_uploads(*),
+      reviewed_by_profile:profiles!documents_reviewed_by_fkey(full_name, email)
+    `)
+    .eq('student_id', studentId)
+    .order('priority', { ascending: false })
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching student documents (admin):', error);
+    return [];
+  }
+
+  return (documents || []).map(doc => ({
+    ...doc,
+    uploads: (doc.uploads || []).sort((a: DocumentUpload, b: DocumentUpload) => 
+      b.version - a.version
+    )
+  }));
+}
+
+/**
+ * Get documents that need admin review across all students
+ */
+export async function getDocumentsPendingReview(limit: number = 50): Promise<DocumentWithUploads[]> {
+  const supabase = await createClient();
+
+  const { data: documents, error } = await supabase
+    .from('documents')
+    .select(`
+      *,
+      uploads:document_uploads(*),
+      student:students!inner(*)
+    `)
+    .in('status', ['uploaded', 'under_review'])
+    .order('updated_at', { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching documents pending review:', error);
+    return [];
+  }
+
+  return (documents || []).map(doc => ({
+    ...doc,
+    uploads: (doc.uploads || []).filter((upload: DocumentUpload) => upload.is_current)
+  }));
+}
+
+/**
+ * Get document summary for a student (admin view)
+ */
+export async function getStudentDocumentSummary(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: documents, error } = await supabase
+    .from('documents')
+    .select('status, is_required')
+    .eq('student_id', studentId);
+
+  if (error || !documents) {
+    console.error('Error fetching document summary:', error);
+    return {
+      total: 0,
+      approved: 0,
+      under_review: 0,
+      missing: 0,
+      needs_correction: 0,
+    };
+  }
+
+  return {
+    total: documents.length,
+    approved: documents.filter(d => d.status === 'approved').length,
+    under_review: documents.filter(d => d.status === 'under_review').length,
+    missing: documents.filter(d => d.status === 'missing' && d.is_required).length,
+    needs_correction: documents.filter(d => d.status === 'needs_correction').length,
+  };
+}
+
+// ============================================================================
+// APPLICATION MANAGEMENT - Sprint 06
+// ============================================================================
+
+/**
+ * Get all applications for a specific student (admin view)
+ */
+export async function getStudentApplicationsAdmin(studentId: string): Promise<ApplicationWithRecommendation[]> {
+  const supabase = await createClient();
+
+  const { data: applications, error } = await supabase
+    .from('applications')
+    .select(`
+      *,
+      recommendation:school_recommendations(*),
+      created_by_profile:profiles!applications_created_by_fkey(full_name, email)
+    `)
+    .eq('student_id', studentId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching student applications (admin):', error);
+    return [];
+  }
+
+  return (applications || []).map(app => ({
+    ...app,
+    recommendation: app.recommendation || null
+  }));
+}
+
+/**
+ * Get application summary for a student (admin view)
+ */
+export async function getStudentApplicationSummary(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: applications, error } = await supabase
+    .from('applications')
+    .select('status')
+    .eq('student_id', studentId);
+
+  if (error || !applications) {
+    console.error('Error fetching application summary:', error);
+    return {
+      total: 0,
+      in_preparation: 0,
+      submitted: 0,
+      accepted: 0,
+      rejected: 0,
+    };
+  }
+
+  return {
+    total: applications.length,
+    in_preparation: applications.filter(a => 
+      ['not_started', 'in_preparation', 'ready_to_submit'].includes(a.status)
+    ).length,
+    submitted: applications.filter(a => 
+      ['submitted', 'waiting_for_decision'].includes(a.status)
+    ).length,
+    accepted: applications.filter(a => a.status === 'accepted').length,
+    rejected: applications.filter(a => a.status === 'rejected').length,
+  };
+}
+
+/**
+ * Get all school recommendations for a student
+ */
+export async function getStudentSchoolRecommendations(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: recommendations, error } = await supabase
+    .from('school_recommendations')
+    .select(`
+      *,
+      recommended_by_profile:profiles!school_recommendations_recommended_by_fkey(full_name, email)
+    `)
+    .eq('student_id', studentId)
+    .eq('is_active', true)
+    .order('priority_rank', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching school recommendations:', error);
+    return [];
+  }
+
+  return recommendations || [];
 }
