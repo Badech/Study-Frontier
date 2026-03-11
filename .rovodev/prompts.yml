@@ -1,0 +1,16 @@
+prompts:
+  - name: bootstrap-plan
+    description: Plan the Study Frontier architecture before coding
+    content_file: bootstrap-plan.md
+
+  - name: implement-sprint
+    description: Implement exactly one sprint
+    content_file: implement-sprint.md
+
+  - name: harden-feature
+    description: Review and harden a feature
+    content_file: harden-feature.md
+
+  - name: release-review
+    description: Compare the repo against the PRD and find gaps
+    content_file: release-review.md
