@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import { redirect } from 'next/navigation';
 import { getUserProfile } from '@/lib/auth/utils';
 import { SignOutButton } from '@/components/auth/sign-out-button';
+import Link from 'next/link';
+import { 
+  LayoutDashboard, 
+  FileText, 
+  GraduationCap, 
+  Calendar, 
+  MessageSquare,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: "Student Portal - Study Frontier",
@@ -11,13 +19,13 @@ export const metadata: Metadata = {
 /**
  * Student Portal Layout
  * Sprint 03: Added authentication and role protection
- * Sprint 04: Will add full navigation sidebar
+ * Sprint 04: Enhanced with mobile-first navigation
  * 
- * Features to add in Sprint 04:
- * - Student navigation sidebar
- * - Progress indicator
- * - Notification bell
- * - Profile dropdown
+ * Features:
+ * - Mobile-first responsive navigation
+ * - Quick action links
+ * - User profile display
+ * - Clean, accessible layout
  */
 export default async function StudentLayout({
   children,
@@ -36,31 +44,112 @@ export default async function StudentLayout({
     redirect('/login');
   }
 
+  const navItems = [
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/dashboard/documents', label: 'Documents', icon: FileText },
+    { href: '/dashboard/applications', label: 'Applications', icon: GraduationCap },
+    { href: '/dashboard/appointments', label: 'Appointments', icon: Calendar },
+    { href: '/dashboard/messages', label: 'Messages', icon: MessageSquare },
+  ];
+
   return (
     <div className="min-h-screen bg-muted/30">
-      {/* Student Portal Header */}
-      <div className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-semibold text-card-foreground">
-                Student Portal
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                Welcome, {profile.full_name}
-              </p>
+      {/* Top Navigation Bar */}
+      <header className="sticky top-0 z-50 border-b border-border bg-card shadow-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            {/* Logo/Brand */}
+            <div className="flex items-center gap-3">
+              <Link href="/dashboard" className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-sm">SF</span>
+                </div>
+                <div className="hidden sm:block">
+                  <h1 className="text-base font-semibold text-card-foreground">
+                    Study Frontier
+                  </h1>
+                  <p className="text-xs text-muted-foreground">Student Portal</p>
+                </div>
+              </Link>
             </div>
-            <SignOutButton className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground">
-              Sign Out
-            </SignOutButton>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+                >
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+            </nav>
+
+            {/* User Menu */}
+            <div className="flex items-center gap-2">
+              {/* User Info - Hidden on mobile */}
+              <div className="hidden md:block text-right mr-2">
+                <p className="text-sm font-medium text-card-foreground">
+                  {profile.full_name || 'Student'}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {profile.email}
+                </p>
+              </div>
+
+              {/* Sign Out Button */}
+              <SignOutButton className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors">
+                Sign Out
+              </SignOutButton>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="lg:hidden border-t border-border">
+            <nav className="flex overflow-x-auto py-2 gap-1 scrollbar-hide">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex flex-col items-center gap-1 px-3 py-2 min-w-[70px] text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+                >
+                  <item.icon className="h-5 w-5" />
+                  <span className="truncate">{item.label}</span>
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         {children}
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-card mt-12">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-muted-foreground">
+              © 2026 Study Frontier. All rights reserved.
+            </p>
+            <div className="flex items-center gap-4 text-sm">
+              <Link href="/support" className="text-muted-foreground hover:text-foreground transition-colors">
+                Support
+              </Link>
+              <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
+                Privacy
+              </Link>
+              <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
+                Terms
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -573,19 +573,6 @@ export interface DashboardStats {
   new_leads: number;
 }
 
-export interface StudentDashboardData {
-  student: StudentWithProfile;
-  next_action: Task | null;
-  missing_documents: Document[];
-  upcoming_appointments: Appointment[];
-  recent_notifications: Notification[];
-  payment_summary: {
-    total_due: number;
-    total_paid: number;
-    overdue_count: number;
-  };
-}
-
 export interface AdminDashboardData {
   stats: DashboardStats;
   pending_tasks: Task[];
@@ -606,4 +593,41 @@ export interface UserProfile {
   full_name: string | null;
   phone: string | null;
   created_at: string;
+}
+
+// ============================================================================
+// STUDENT DASHBOARD TYPES (Sprint 04)
+// ============================================================================
+
+export interface StudentDashboardData {
+  profile: Profile;
+  student: Student;
+  nextAction: Task | null;
+  tasks: Task[];
+  missingDocuments: Document[];
+  upcomingAppointments: Appointment[];
+  recentMessages: Message[];
+  applicationsSummary: {
+    total: number;
+    inProgress: number;
+    submitted: number;
+    accepted: number;
+  };
+}
+
+export interface ProgressStage {
+  key: string;
+  label: string;
+  description: string;
+  order: number;
+  isComplete: boolean;
+  isCurrent: boolean;
+}
+
+export interface DocumentStatusSummary {
+  missing: number;
+  uploaded: number;
+  underReview: number;
+  needsCorrection: number;
+  approved: number;
 }
