@@ -34,6 +34,7 @@ export interface AdminDashboardStats {
   pendingReviews: number;
   pendingTasks: number;
   upcomingAppointments: number;
+  pendingPayments: number;
   studentsByStage: {
     assessment: number;
     planning: number;
@@ -86,6 +87,12 @@ export async function getAdminDashboardStats(): Promise<AdminDashboardStats> {
     .lte('scheduled_at', nextWeek.toISOString())
     .in('status', ['scheduled', 'confirmed']);
 
+  // Get pending payments
+  const { count: pendingPayments } = await supabase
+    .from('payments')
+    .select('*', { count: 'exact', head: true })
+    .in('status', ['pending', 'invoice_sent', 'overdue']);
+
   // Get students by stage
   const { data: studentsData } = await supabase
     .from('students')
@@ -113,6 +120,7 @@ export async function getAdminDashboardStats(): Promise<AdminDashboardStats> {
     pendingReviews: pendingReviews || 0,
     pendingTasks: pendingTasks || 0,
     upcomingAppointments: upcomingAppointments || 0,
+    pendingPayments: pendingPayments || 0,
     studentsByStage,
   };
 }
@@ -233,6 +241,38 @@ export async function getTasksNeedingAttention(limit = 20): Promise<TaskNeedingA
       dueDate: appt.scheduled_at,
       createdAt: appt.scheduled_at,
       linkUrl: `/admin/appointments`,
+    });
+  });
+
+  // 4. Pending payments
+  const { data: pendingPayments } = await supabase
+    .from('payments')
+    .select(`
+      id,
+      amount,
+      currency,
+      status,
+      due_date,
+      created_at,
+      student_id,
+      students!inner(id, profiles!inner(full_name))
+    `)
+    .in('status', ['pending', 'invoice_sent'])
+    .order('due_date', { ascending: true, nullsFirst: false })
+    .limit(10);
+
+  pendingPayments?.forEach((payment: any) => {
+    tasks.push({
+      id: payment.id,
+      type: 'pending_payment',
+      title: `Payment: ${payment.currency} ${payment.amount}`,
+      description: `${payment.status === 'pending' ? 'Needs approval' : 'Invoice sent'} - ${payment.students.profiles.full_name}`,
+      priority: payment.status === 'pending' ? 'high' : 'medium',
+      studentId: payment.student_id,
+      studentName: payment.students.profiles.full_name,
+      dueDate: payment.due_date,
+      createdAt: payment.created_at,
+      linkUrl: `/admin/students/${payment.student_id}#payments`,
     });
   });
 

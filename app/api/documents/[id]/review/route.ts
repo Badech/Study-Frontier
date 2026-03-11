@@ -71,7 +71,31 @@ export async function POST(
       .eq('document_id', id)
       .eq('is_current', true);
 
-    // TODO: Create notification for student (Sprint 08)
+    // Create notification for student
+    const { createNotification, notificationTemplates } = await import('@/lib/notifications');
+    
+    if (status === 'approved') {
+      await createNotification({
+        userId: document.student_id,
+        ...notificationTemplates.documentApproved(document.display_name),
+        linkUrl: '/dashboard/documents',
+        relatedEntityType: 'document',
+        relatedEntityId: id,
+        sendEmail: true,
+      });
+    } else if (status === 'needs_correction' && adminFeedback) {
+      await createNotification({
+        userId: document.student_id,
+        ...notificationTemplates.documentNeedsCorrection(
+          document.display_name,
+          adminFeedback
+        ),
+        linkUrl: '/dashboard/documents',
+        relatedEntityType: 'document',
+        relatedEntityId: id,
+        sendEmail: true,
+      });
+    }
     // await createNotification({
     //   userId: document.student.id,
     //   type: 'document_reviewed',

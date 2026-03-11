@@ -116,7 +116,17 @@ export async function POST(
       },
     });
 
-    // TODO: Create notification for admin (Sprint 08)
+    // Create notification for student about review completion
+    const { createNotification, notificationTemplates } = await import('@/lib/notifications');
+    
+    await createNotification({
+      userId: updatedDS160.student_id,
+      ...notificationTemplates.ds160ReviewComplete('submitted for review'),
+      linkUrl: '/dashboard/visa/ds160',
+      relatedEntityType: 'ds160',
+      relatedEntityId: id,
+      sendEmail: true,
+    });
     // For now, we can create a task for admin to review
     await supabase.from('tasks').insert({
       student_id: user.id,
