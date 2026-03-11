@@ -1,47 +1,79 @@
-import Link from "next/link";
+﻿"use client";
 
-/**
- * Main navigation component
- * Placeholder for Sprint 00 - will be enhanced in Sprint 01 with full navigation
- */
+import { useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const navLinks = [
+  { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/study-usa", label: "Study in USA" },
+  { href: "/process", label: "Our Process" },
+  { href: "/institutions", label: "For Institutions" },
+  { href: "/contact", label: "Contact" },
+];
+
 export function Navigation() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <nav className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/" className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
-              Study Frontier
-            </Link>
+          <Link href="/" className="text-xl font-bold">
+            Study Frontier
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-8 md:flex">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Button asChild size="sm">
+              <Link href="/contact">Get Started</Link>
+            </Button>
           </div>
 
-          {/* Navigation Links - Placeholder */}
-          <div className="hidden items-center gap-6 md:flex">
-            <Link href="/" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50">
-              Home
-            </Link>
-            <Link href="/about" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50">
-              About
-            </Link>
-            <Link href="/services" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50">
-              Services
-            </Link>
-            <Link href="/contact" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50">
-              Contact
-            </Link>
-          </div>
-
-          {/* CTA Button - Placeholder */}
-          <div className="flex items-center gap-4">
-            <Link
-              href="/assessment"
-              className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
-            >
-              Get Assessed
-            </Link>
-          </div>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="border-t border-border py-4 md:hidden">
+            <div className="flex flex-col space-y-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium transition-colors hover:text-primary"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Button asChild size="sm" className="w-full">
+                <Link href="/contact" onClick={() => setIsOpen(false)}>
+                  Get Started
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
