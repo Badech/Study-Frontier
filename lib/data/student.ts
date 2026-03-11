@@ -468,3 +468,93 @@ export async function getApplicationsSummary(studentId: string) {
     accepted: applications.filter(a => a.status === 'accepted').length,
   };
 }
+
+// ============================================================================
+// DS-160 AND VISA PREPARATION - Sprint 07
+// ============================================================================
+
+/**
+ * Get DS-160 data for a student
+ */
+export async function getStudentDS160(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: ds160, error } = await supabase
+    .from('ds160_data')
+    .select('*')
+    .eq('student_id', studentId)
+    .single();
+
+  if (error || !ds160) {
+    // Return empty structure if no DS-160 exists yet
+    return {
+      id: null,
+      student_id: studentId,
+      form_data: {},
+      status: 'draft',
+      sections_completed: [],
+      completion_percentage: 0,
+      reviewed_by: null,
+      reviewed_at: null,
+      review_notes: null,
+      created_at: null,
+      updated_at: null,
+    };
+  }
+
+  return ds160;
+}
+
+/**
+ * Get visa preparation data for a student
+ */
+export async function getStudentVisaPreparation(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: visaPrep, error } = await supabase
+    .from('visa_preparation')
+    .select('*')
+    .eq('student_id', studentId)
+    .single();
+
+  if (error || !visaPrep) {
+    // Return empty structure if no visa prep exists yet
+    return {
+      id: null,
+      student_id: studentId,
+      mock_interview_status: 'not_scheduled',
+      last_mock_interview_date: null,
+      mock_interview_notes: null,
+      checklist_items: [],
+      readiness_level: 'not_ready',
+      interview_date: null,
+      interview_location: null,
+      admin_notes: null,
+      created_at: null,
+      updated_at: null,
+    };
+  }
+
+  return visaPrep;
+}
+
+/**
+ * Get visa-related appointments for a student
+ */
+export async function getVisaAppointments(studentId: string): Promise<Appointment[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('appointments')
+    .select('*')
+    .eq('student_id', studentId)
+    .in('type', ['visa_coaching', 'mock_interview'])
+    .order('scheduled_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching visa appointments:', error);
+    return [];
+  }
+
+  return data || [];
+}

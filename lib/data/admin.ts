@@ -838,3 +838,115 @@ export async function getStudentSchoolRecommendations(studentId: string) {
 
   return recommendations || [];
 }
+
+// ============================================================================
+// DS-160 AND VISA PREPARATION - Sprint 07
+// ============================================================================
+
+/**
+ * Get DS-160 submissions pending admin review
+ */
+export async function getDS160PendingReview(limit: number = 50) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('ds160_data')
+    .select(`
+      *,
+      student:students!inner(
+        *,
+        profile:profiles!inner(*)
+      )
+    `)
+    .eq('status', 'submitted_for_review')
+    .order('updated_at', { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching DS-160 pending review:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+/**
+ * Get DS-160 data for a specific student (admin view)
+ */
+export async function getStudentDS160Admin(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: ds160, error } = await supabase
+    .from('ds160_data')
+    .select(`
+      *,
+      reviewed_by_profile:profiles!ds160_data_reviewed_by_fkey(full_name, email)
+    `)
+    .eq('student_id', studentId)
+    .single();
+
+  if (error || !ds160) {
+    return null;
+  }
+
+  return ds160;
+}
+
+/**
+ * Get visa preparation data for a specific student (admin view)
+ */
+export async function getStudentVisaPreparationAdmin(studentId: string) {
+  const supabase = await createClient();
+
+  const { data: visaPrep, error } = await supabase
+    .from('visa_preparation')
+    .select('*')
+    .eq('student_id', studentId)
+    .single();
+
+  if (error || !visaPrep) {
+    // Return empty structure if no visa prep exists yet
+    return {
+      id: null,
+      student_id: studentId,
+      mock_interview_status: 'not_scheduled',
+      last_mock_interview_date: null,
+      mock_interview_notes: null,
+      checklist_items: [],
+      readiness_level: 'not_ready',
+      interview_date: null,
+      interview_location: null,
+      admin_notes: null,
+      created_at: null,
+      updated_at: null,
+    };
+  }
+
+  return visaPrep;
+}
+
+/**
+ * Get students in visa preparation stage
+ */
+export async function getStudentsInVisaPreparation(limit: number = 50) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('students')
+    .select(`
+      *,
+      profile:profiles!inner(*),
+      visa_prep:visa_preparation(*)
+    `)
+    .eq('current_stage', 'visa_preparation')
+    .eq('is_active', true)
+    .order('stage_updated_at', { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching students in visa preparation:', error);
+    return [];
+  }
+
+  return data || [];
+}
