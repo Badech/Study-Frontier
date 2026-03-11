@@ -37,8 +37,14 @@ export function Navigation() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/login"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Login
+            </Link>
             <Button asChild size="sm">
-              <Link href="/contact">Get Started</Link>
+              <Link href="/signup">Get Started</Link>
             </Button>
           </div>
 
@@ -66,8 +72,15 @@ export function Navigation() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/login"
+                className="text-sm font-medium transition-colors hover:text-primary"
+                onClick={() => setIsOpen(false)}
+              >
+                Login
+              </Link>
               <Button asChild size="sm" className="w-full">
-                <Link href="/contact" onClick={() => setIsOpen(false)}>
+                <Link href="/signup" onClick={() => setIsOpen(false)}>
                   Get Started
                 </Link>
               </Button>
