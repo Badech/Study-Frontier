@@ -8,11 +8,12 @@ import { AuthForm } from '@/components/auth/auth-form';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/utils';
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: { redirect?: string };
+export default async function LoginPage(props: {
+  searchParams: Promise<{ redirect?: string }>;
 }) {
+  // Await searchParams (Next.js 15+ requirement)
+  const searchParams = await props.searchParams;
+  
   // If already logged in, redirect to appropriate dashboard
   const user = await getCurrentUser();
   if (user) {

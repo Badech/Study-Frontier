@@ -8,11 +8,12 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/utils';
 
-export default async function AdminSignupPage({
-  searchParams,
-}: {
-  searchParams: { token?: string };
+export default async function AdminSignupPage(props: {
+  searchParams: Promise<{ token?: string }>;
 }) {
+  // Await searchParams (Next.js 15+ requirement)
+  const searchParams = await props.searchParams;
+  
   // If already logged in, redirect to admin dashboard
   const user = await getCurrentUser();
   if (user) {

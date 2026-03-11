@@ -31,6 +31,7 @@ export async function getStudentProfile(userId: string) {
     .single();
 
   if (profileError || !profile) {
+    console.error('Error fetching profile:', profileError);
     return null;
   }
 
@@ -41,6 +42,30 @@ export async function getStudentProfile(userId: string) {
     .single();
 
   if (studentError || !student) {
+    console.error('Error fetching student record:', studentError);
+    
+    // If student record doesn't exist, create a default one
+    if (studentError?.code === 'PGRST116') { // Not found error
+      console.log('Creating default student record for user:', userId);
+      
+      const { data: newStudent, error: createError } = await supabase
+        .from('students')
+        .insert({
+          id: userId,
+          current_stage: 'assessment',
+          is_active: true,
+        })
+        .select()
+        .single();
+
+      if (createError) {
+        console.error('Error creating student record:', createError);
+        return null;
+      }
+
+      return { profile, student: newStudent };
+    }
+    
     return null;
   }
 

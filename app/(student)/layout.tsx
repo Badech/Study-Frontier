@@ -39,9 +39,16 @@ export default async function StudentLayout({
     redirect('/login?redirect=/dashboard');
   }
 
-  // Redirect if not a student
+  // Redirect if not a student - send to appropriate dashboard
   if (profile.role !== 'student') {
-    redirect('/login');
+    if (profile.role === 'admin') {
+      redirect('/admin');
+    } else if (profile.role === 'parent') {
+      redirect('/overview');
+    } else {
+      // Fallback to login if unknown role
+      redirect('/login');
+    }
   }
 
   const navItems = [
