@@ -2,6 +2,9 @@
  * Parent Overview Page
  * Sprint 00: Placeholder - will be implemented in Sprint 08
  */
+
+export const dynamic = 'force-dynamic';
+
 export default function ParentOverviewPage() {
   return (
     <div className="space-y-6">

@@ -10,6 +10,8 @@ import { StatusBadge } from '@/components/ui/status-badge';
 import { GraduationCap, Calendar, ExternalLink, MapPin, Clock } from 'lucide-react';
 import type { ApplicationWithRecommendation } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'My Applications - Study Frontier',
   description: 'Track your university applications',

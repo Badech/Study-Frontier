@@ -8,6 +8,8 @@
 import { getTasksNeedingAttention } from '@/lib/data/admin';
 import { TasksList } from '@/components/admin/tasks-list';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminTasksPage() {
   const tasks = await getTasksNeedingAttention(50);
 

@@ -15,6 +15,7 @@ import {
   CheckSquare, 
   Calendar,
   Settings,
+  FileText,
 } from 'lucide-react';
 
 const navigation = [
@@ -23,6 +24,7 @@ const navigation = [
   { name: 'Students', href: '/admin/students', icon: Users },
   { name: 'Tasks', href: '/admin/tasks', icon: CheckSquare },
   { name: 'Appointments', href: '/admin/appointments', icon: Calendar },
+  { name: 'CMS', href: '/admin/cms', icon: FileText },
 ];
 
 export function AdminNav() {

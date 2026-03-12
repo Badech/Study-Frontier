@@ -9,6 +9,8 @@ import { getLeads } from '@/lib/data/admin';
 import { LeadsTable } from '@/components/admin/leads-table';
 import { Card } from '@/components/ui/card';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminLeadsPage() {
   const { leads, total } = await getLeads({ limit: 100 });
 

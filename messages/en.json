@@ -1,0 +1,92 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "studyUsa": "Study in USA",
+    "process": "Our Process",
+    "institutions": "For Institutions",
+    "contact": "Contact",
+    "login": "Login",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "subtitle": "Premium USA Study Consulting",
+    "title": "Your Journey to American Universities Starts Here",
+    "description": "Clear Process. No Confusion. We guide Moroccan students through every step of studying in the USA—from university selection to visa approval.",
+    "startJourney": "Start Your Journey",
+    "howItWorks": "How It Works"
+  },
+  "trustIndicators": {
+    "studentsGuided": "Students Guided",
+    "partnerUniversities": "Partner Universities",
+    "visaSuccessRate": "Visa Success Rate"
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Study Frontier?",
+    "subtitle": "We combine human expertise with modern technology to provide a seamless, trustworthy experience.",
+    "expertGuidance": {
+      "title": "Expert Guidance",
+      "description": "Experienced counselors who understand both the US education system and Moroccan student needs."
+    },
+    "clearProcess": {
+      "title": "Clear Process",
+      "description": "Step-by-step roadmap from initial assessment to pre-departure. No surprises, no confusion."
+    },
+    "personalizedSupport": {
+      "title": "Personalized Support",
+      "description": "One-on-one counseling tailored to your academic goals and financial situation."
+    },
+    "usaFocus": {
+      "title": "USA-First Focus",
+      "description": "Specialized exclusively in US universities. Deep partnerships and insider knowledge."
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive support packages designed for every stage of your journey.",
+    "universitySelection": {
+      "title": "University Selection",
+      "features": {
+        "matching": "Personalized university matching",
+        "strategy": "Application strategy planning",
+        "review": "Essay and SOP review"
+      },
+      "learnMore": "Learn More"
+    },
+    "completeJourney": {
+      "title": "Complete Journey",
+      "badge": "Most Popular",
+      "features": {
+        "application": "End-to-end application support",
+        "visa": "Visa preparation and interview prep",
+        "preDeparture": "Pre-departure orientation"
+      },
+      "getStarted": "Get Started"
+    },
+    "visaSupport": {
+      "title": "Visa Support",
+      "features": {
+        "ds160": "DS-160 form assistance",
+        "interview": "Interview preparation",
+        "verification": "Document verification"
+      },
+      "learnMore": "Learn More"
+    }
+  },
+  "cta": {
+    "title": "Ready to Start Your Journey?",
+    "description": "Schedule a free consultation to discuss your study abroad goals and see how we can help.",
+    "bookConsultation": "Book Free Consultation"
+  },
+  "footer": {
+    "tagline": "Clear Process. No Confusion.",
+    "description": "Premium educational consulting for Moroccan students pursuing studies in the USA.",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "refund": "Refund Policy",
+    "rights": "All rights reserved."
+  }
+}

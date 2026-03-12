@@ -2,27 +2,31 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations, useLocale } from 'next-intl';
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const navLinks = [
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/study-usa", label: "Study in USA" },
-  { href: "/process", label: "Our Process" },
-  { href: "/institutions", label: "For Institutions" },
-  { href: "/contact", label: "Contact" },
-];
+import { LanguageSwitcher } from "./language-switcher";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations('navigation');
+  const locale = useLocale();
+
+  const navLinks = [
+    { href: `/${locale}/about`, label: t('about') },
+    { href: `/${locale}/services`, label: t('services') },
+    { href: `/${locale}/study-usa`, label: t('studyUsa') },
+    { href: `/${locale}/process`, label: t('process') },
+    { href: `/${locale}/institutions`, label: t('institutions') },
+    { href: `/${locale}/contact`, label: t('contact') },
+  ];
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold">
+          <Link href={`/${locale}`} className="text-xl font-bold">
             Study Frontier
           </Link>
 
@@ -37,14 +41,15 @@ export function Navigation() {
                 {link.label}
               </Link>
             ))}
+            <LanguageSwitcher />
             <Link
               href="/login"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
-              Login
+              {t('login')}
             </Link>
             <Button asChild size="sm">
-              <Link href="/signup">Get Started</Link>
+              <Link href="/signup">{t('getStarted')}</Link>
             </Button>
           </div>
 
@@ -72,16 +77,19 @@ export function Navigation() {
                   {link.label}
                 </Link>
               ))}
+              <div className="border-t border-border pt-4">
+                <LanguageSwitcher />
+              </div>
               <Link
                 href="/login"
                 className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={() => setIsOpen(false)}
               >
-                Login
+                {t('login')}
               </Link>
               <Button asChild size="sm" className="w-full">
                 <Link href="/signup" onClick={() => setIsOpen(false)}>
-                  Get Started
+                  {t('getStarted')}
                 </Link>
               </Button>
             </div>

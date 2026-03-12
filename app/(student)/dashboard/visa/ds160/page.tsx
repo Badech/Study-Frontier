@@ -10,6 +10,9 @@ import { createClient } from '@/lib/supabase/server';
 import { getStudentDS160 } from '@/lib/data/student';
 import { DS160FormClient } from './ds160-form-client';
 
+
+export const dynamic = 'force-dynamic';
+
 export default async function StudentDS160Page() {
   const supabase = await createClient();
 

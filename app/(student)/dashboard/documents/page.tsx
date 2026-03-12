@@ -9,6 +9,8 @@ import { getStudentDocuments, getDocumentStatusSummary } from '@/lib/data/studen
 import { DocumentUploadCard } from '@/components/student/document-upload';
 import { FileText, CheckCircle, Clock, AlertCircle, XCircle } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'My Documents - Study Frontier',
   description: 'Upload and manage your application documents',

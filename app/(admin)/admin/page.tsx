@@ -24,6 +24,8 @@ import { AppointmentsList } from '@/components/admin/appointments-list';
 import { ActivityFeed } from '@/components/admin/activity-feed';
 import { UserPlus, Users, AlertCircle, CheckSquare, Calendar } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboardPage() {
   // Fetch all dashboard data in parallel
   const [stats, tasks, studentsData, appointmentsData, activities] = await Promise.all([

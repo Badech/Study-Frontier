@@ -1,23 +1,8 @@
-﻿import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+﻿"use client";
 
-const footerLinks = {
-  company: [
-    { href: "/about", label: "About Us" },
-    { href: "/services", label: "Services" },
-    { href: "/process", label: "Our Process" },
-    { href: "/institutions", label: "For Institutions" },
-  ],
-  resources: [
-    { href: "/study-usa", label: "Study in USA" },
-    { href: "/contact", label: "Contact" },
-  ],
-  legal: [
-    { href: "/privacy", label: "Privacy Policy" },
-    { href: "/terms", label: "Terms of Service" },
-    { href: "/refund", label: "Refund Policy" },
-  ],
-};
+import Link from "next/link";
+import { useTranslations, useLocale } from 'next-intl';
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 
 const socialLinks = [
   { href: "#", icon: Facebook, label: "Facebook" },
@@ -27,6 +12,26 @@ const socialLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const t = useTranslations();
+  const locale = useLocale();
+
+  const footerLinks = {
+    company: [
+      { href: `/${locale}/about`, label: t('navigation.about') },
+      { href: `/${locale}/services`, label: t('navigation.services') },
+      { href: `/${locale}/process`, label: t('navigation.process') },
+      { href: `/${locale}/institutions`, label: t('navigation.institutions') },
+    ],
+    resources: [
+      { href: `/${locale}/study-usa`, label: t('navigation.studyUsa') },
+      { href: `/${locale}/contact`, label: t('navigation.contact') },
+    ],
+    legal: [
+      { href: `/${locale}/privacy`, label: t('footer.privacy') },
+      { href: `/${locale}/terms`, label: t('footer.terms') },
+      { href: `/${locale}/refund`, label: t('footer.refund') },
+    ],
+  };
 
   return (
     <footer className="border-t border-border bg-muted/30">
@@ -36,7 +41,7 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-xl font-bold">Study Frontier</h3>
             <p className="text-sm text-muted-foreground">
-              Premium USA study abroad consulting for Moroccan students. Clear Process. No Confusion.
+              {t('footer.description')}
             </p>
             <div className="flex gap-4">
               {socialLinks.map((link) => (
@@ -54,7 +59,7 @@ export function Footer() {
 
           {/* Company Links */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold">Company</h4>
+            <h4 className="mb-4 text-sm font-semibold">{t('footer.quickLinks')}</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -88,7 +93,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold">Contact</h4>
+            <h4 className="mb-4 text-sm font-semibold">{t('navigation.contact')}</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <Mail className="mt-0.5 h-4 w-4 flex-shrink-0" />
@@ -113,7 +118,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 border-t border-border pt-8">
           <div className="flex flex-col items-center justify-between gap-4 text-sm text-muted-foreground md:flex-row">
-            <p>&copy; {currentYear} Study Frontier. All rights reserved.</p>
+            <p>&copy; {currentYear} Study Frontier. {t('footer.rights')}</p>
             <div className="flex gap-6">
               {footerLinks.legal.map((link) => (
                 <Link key={link.href} href={link.href} className="hover:text-primary">

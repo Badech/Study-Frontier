@@ -9,6 +9,8 @@ import { getAdminAppointments } from '@/lib/data/admin';
 import { AppointmentsList } from '@/components/admin/appointments-list';
 import { Card } from '@/components/ui/card';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminAppointmentsPage() {
   // Get upcoming appointments
   const { appointments, total } = await getAdminAppointments({

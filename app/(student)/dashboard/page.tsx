@@ -19,6 +19,8 @@ import { ProgressCard } from '@/components/student/progress-card';
 import { AppointmentsCard } from '@/components/student/appointments-card';
 import { RecentUpdatesCard } from '@/components/student/recent-updates-card';
 
+export const dynamic = 'force-dynamic';
+
 export default async function StudentDashboardPage() {
   // Get authenticated user
   const profile = await getUserProfile();

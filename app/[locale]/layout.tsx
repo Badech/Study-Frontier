@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import "../globals.css";
 import { Navigation } from "@/components/layout/navigation";
 import { Footer } from "@/components/layout/footer";
+import { locales } from '@/i18n';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,19 +32,40 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+  
+  // Validate locale
+  if (!locales.includes(locale as any)) {
+    notFound();
+  }
+
+  // Get messages for the locale
+  const messages = await getMessages();
+
+  // Determine if RTL
+  const isRTL = locale === 'ar';
+
   return (
-    <html lang="en">
+    <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navigation />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <NextIntlClientProvider messages={messages}>
+          <Navigation />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

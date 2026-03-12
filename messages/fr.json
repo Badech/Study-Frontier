@@ -1,0 +1,92 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "services": "Services",
+    "studyUsa": "Étudier aux USA",
+    "process": "Notre Processus",
+    "institutions": "Pour les Institutions",
+    "contact": "Contact",
+    "login": "Connexion",
+    "getStarted": "Commencer"
+  },
+  "hero": {
+    "subtitle": "Conseil Premium pour Études aux USA",
+    "title": "Votre Voyage vers les Universités Américaines Commence Ici",
+    "description": "Processus Clair. Aucune Confusion. Nous guidons les étudiants marocains à travers chaque étape des études aux USA—de la sélection universitaire à l'approbation du visa.",
+    "startJourney": "Commencez Votre Voyage",
+    "howItWorks": "Comment Ça Marche"
+  },
+  "trustIndicators": {
+    "studentsGuided": "Étudiants Guidés",
+    "partnerUniversities": "Universités Partenaires",
+    "visaSuccessRate": "Taux de Réussite Visa"
+  },
+  "whyChooseUs": {
+    "title": "Pourquoi Choisir Study Frontier?",
+    "subtitle": "Nous combinons l'expertise humaine avec la technologie moderne pour offrir une expérience fluide et fiable.",
+    "expertGuidance": {
+      "title": "Guidance Experte",
+      "description": "Conseillers expérimentés qui comprennent à la fois le système éducatif américain et les besoins des étudiants marocains."
+    },
+    "clearProcess": {
+      "title": "Processus Clair",
+      "description": "Feuille de route étape par étape de l'évaluation initiale au pré-départ. Aucune surprise, aucune confusion."
+    },
+    "personalizedSupport": {
+      "title": "Soutien Personnalisé",
+      "description": "Conseil individuel adapté à vos objectifs académiques et à votre situation financière."
+    },
+    "usaFocus": {
+      "title": "Focus USA d'Abord",
+      "description": "Spécialisé exclusivement dans les universités américaines. Partenariats solides et connaissances d'initiés."
+    }
+  },
+  "services": {
+    "title": "Nos Services",
+    "subtitle": "Packages de soutien complets conçus pour chaque étape de votre voyage.",
+    "universitySelection": {
+      "title": "Sélection Universitaire",
+      "features": {
+        "matching": "Correspondance universitaire personnalisée",
+        "strategy": "Planification de stratégie de candidature",
+        "review": "Révision d'essais et de SOP"
+      },
+      "learnMore": "En Savoir Plus"
+    },
+    "completeJourney": {
+      "title": "Voyage Complet",
+      "badge": "Le Plus Populaire",
+      "features": {
+        "application": "Soutien complet de bout en bout",
+        "visa": "Préparation visa et préparation d'entrevue",
+        "preDeparture": "Orientation pré-départ"
+      },
+      "getStarted": "Commencer"
+    },
+    "visaSupport": {
+      "title": "Soutien Visa",
+      "features": {
+        "ds160": "Assistance formulaire DS-160",
+        "interview": "Préparation d'entrevue",
+        "verification": "Vérification de documents"
+      },
+      "learnMore": "En Savoir Plus"
+    }
+  },
+  "cta": {
+    "title": "Prêt à Commencer Votre Voyage?",
+    "description": "Planifiez une consultation gratuite pour discuter de vos objectifs d'études à l'étranger et voir comment nous pouvons vous aider.",
+    "bookConsultation": "Réserver une Consultation Gratuite"
+  },
+  "footer": {
+    "tagline": "Processus Clair. Aucune Confusion.",
+    "description": "Conseil éducatif premium pour les étudiants marocains poursuivant des études aux USA.",
+    "quickLinks": "Liens Rapides",
+    "legal": "Légal",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions Générales",
+    "refund": "Politique de Remboursement",
+    "rights": "Tous droits réservés."
+  }
+}

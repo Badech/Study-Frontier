@@ -11,6 +11,9 @@ import { createClient } from '@/lib/supabase/server';
 import { getStudentVisaPreparation, getVisaAppointments, getStudentDS160 } from '@/lib/data/student';
 import { VisaPreparationClient } from './visa-prep-client';
 
+
+export const dynamic = 'force-dynamic';
+
 export default async function VisaPreparationPage() {
   const supabase = await createClient();
 
