@@ -55,7 +55,7 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'always'
 });
 
-export function proxy(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   // Apply rate limiting to API routes only
   if (request.nextUrl.pathname.startsWith('/api/')) {
     const key = getRateLimitKey(request);
