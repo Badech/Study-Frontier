@@ -54,7 +54,7 @@ export function AuthForm({ mode, role = 'student', redirectTo }: AuthFormProps) 
 
         if (!validationResult.success) {
           const errors: Record<string, string> = {};
-          validationResult.error.errors.forEach((err) => {
+          validationResult.error.issues.forEach((err) => {
             if (err.path[0]) {
               errors[err.path[0].toString()] = err.message;
             }
@@ -99,7 +99,7 @@ export function AuthForm({ mode, role = 'student', redirectTo }: AuthFormProps) 
 
         if (!validationResult.success) {
           const errors: Record<string, string> = {};
-          validationResult.error.errors.forEach((err) => {
+          validationResult.error.issues.forEach((err) => {
             if (err.path[0]) {
               errors[err.path[0].toString()] = err.message;
             }
