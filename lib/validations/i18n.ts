@@ -11,7 +11,7 @@ import { locales, defaultLocale } from '@/i18n';
  * Ensures only valid locales are accepted
  */
 export const localeSchema = z.enum(locales, {
-  errorMap: () => ({ message: `Locale must be one of: ${locales.join(', ')}` }),
+  message: `Locale must be one of: ${locales.join(', ')}`,
 });
 
 export type LocaleInput = z.infer<typeof localeSchema>;
