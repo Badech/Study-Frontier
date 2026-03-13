@@ -130,11 +130,11 @@ export default async function ApplicationsPage() {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect('/login');
+    redirect('/login?redirect=/dashboard/applications');
   }
 
   if (user.role !== 'student') {
-    redirect('/');
+    redirect('/dashboard');
   }
 
   const applications = await getStudentApplications(user.id);
@@ -151,12 +151,12 @@ export default async function ApplicationsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Applications</h1>
-          <p className="mt-2 text-gray-600">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">My Applications</h1>
+          <p className="mt-2 text-sm sm:text-base text-muted-foreground">
             Track the status of your university applications and upcoming deadlines.
           </p>
         </div>
@@ -199,8 +199,8 @@ export default async function ApplicationsPage() {
           <div className="space-y-8">
             {/* In Progress */}
             {inProgress.length > 0 && (
-              <div>
-                <h2 className="mb-4 text-xl font-semibold text-gray-900">
+              <section aria-labelledby="in-progress-heading">
+                <h2 id="in-progress-heading" className="mb-4 text-xl font-semibold text-card-foreground">
                   In Progress ({inProgress.length})
                 </h2>
                 <div className="grid gap-6 md:grid-cols-2">
@@ -208,13 +208,13 @@ export default async function ApplicationsPage() {
                     <ApplicationCard key={app.id} application={app} />
                   ))}
                 </div>
-              </div>
+              </section>
             )}
 
             {/* Submitted */}
             {submitted.length > 0 && (
-              <div>
-                <h2 className="mb-4 text-xl font-semibold text-gray-900">
+              <section aria-labelledby="submitted-heading">
+                <h2 id="submitted-heading" className="mb-4 text-xl font-semibold text-card-foreground">
                   Submitted ({submitted.length})
                 </h2>
                 <div className="grid gap-6 md:grid-cols-2">
@@ -222,13 +222,13 @@ export default async function ApplicationsPage() {
                     <ApplicationCard key={app.id} application={app} />
                   ))}
                 </div>
-              </div>
+              </section>
             )}
 
             {/* Decided */}
             {decided.length > 0 && (
-              <div>
-                <h2 className="mb-4 text-xl font-semibold text-gray-900">
+              <section aria-labelledby="decided-heading">
+                <h2 id="decided-heading" className="mb-4 text-xl font-semibold text-card-foreground">
                   Decisions ({decided.length})
                 </h2>
                 <div className="grid gap-6 md:grid-cols-2">
@@ -236,7 +236,7 @@ export default async function ApplicationsPage() {
                     <ApplicationCard key={app.id} application={app} />
                   ))}
                 </div>
-              </div>
+              </section>
             )}
           </div>
         )}

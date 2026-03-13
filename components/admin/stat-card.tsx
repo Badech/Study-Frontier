@@ -25,19 +25,19 @@ export function StatCard({ title, value, icon: Icon, trend, description, href }:
       <div className="flex items-start justify-between">
         <div className="space-y-2">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="text-3xl font-bold text-foreground">{value}</p>
+          <p className="text-3xl font-bold text-foreground" aria-label={`${title}: ${value}`}>{value}</p>
           {description && (
             <p className="text-xs text-muted-foreground">{description}</p>
           )}
           {trend && (
-            <p className={`text-xs font-medium ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+            <p className={`text-xs font-medium ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`} aria-label={`Trend: ${trend.isPositive ? 'up' : 'down'} ${Math.abs(trend.value)} percent`}>
               {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
             </p>
           )}
         </div>
         {Icon && (
           <div className="p-3 bg-primary/10 rounded-lg">
-            <Icon className="h-6 w-6 text-primary" />
+            <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
           </div>
         )}
       </div>
@@ -46,7 +46,7 @@ export function StatCard({ title, value, icon: Icon, trend, description, href }:
 
   if (href) {
     return (
-      <a href={href} className="block">
+      <a href={href} className="block" aria-label={`View ${title}`}>
         {CardContent}
       </a>
     );

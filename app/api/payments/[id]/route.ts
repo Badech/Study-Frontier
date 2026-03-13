@@ -16,6 +16,13 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+    
+    // Validate UUID format
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(id)) {
+      return NextResponse.json({ error: 'Invalid payment ID format' }, { status: 400 });
+    }
+    
     const supabase = await createClient();
 
     // Get current user
@@ -82,6 +89,13 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params;
+    
+    // Validate UUID format
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(id)) {
+      return NextResponse.json({ error: 'Invalid payment ID format' }, { status: 400 });
+    }
+    
     const supabase = await createClient();
 
     // Get current user
@@ -106,6 +120,17 @@ export async function PATCH(
     }
 
     const body = await request.json();
+    
+    // Validate input with Zod
+    const { updatePaymentSchema } = await import('@/lib/validations/payments');
+    const validation = updatePaymentSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: validation.error.issues },
+        { status: 400 }
+      );
+    }
+    
     const {
       status,
       external_invoice_id,
@@ -113,7 +138,7 @@ export async function PATCH(
       payment_method,
       paid_at,
       admin_notes,
-    } = body;
+    } = validation.data;
 
     // Get existing payment for notification logic
     const { data: existingPayment } = await supabase

@@ -132,6 +132,7 @@ export function FileUpload({
               type="button"
               onClick={handleClear}
               className="rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-600"
+              aria-label="Remove file"
             >
               <X className="h-5 w-5" />
             </button>
@@ -150,6 +151,15 @@ export function FileUpload({
             disabled && 'cursor-not-allowed opacity-50'
           )}
           onClick={() => !disabled && fileInputRef.current?.click()}
+          onKeyDown={(e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
+              e.preventDefault();
+              fileInputRef.current?.click();
+            }
+          }}
+          role="button"
+          tabIndex={disabled ? -1 : 0}
+          aria-label="Upload file area"
         >
           <Upload className={cn('mb-3 h-12 w-12', isDragging ? 'text-blue-600' : 'text-gray-400')} />
           <p className="mb-1 text-sm font-medium text-gray-700">
@@ -168,10 +178,11 @@ export function FileUpload({
         onChange={handleFileChange}
         disabled={disabled}
         className="hidden"
+        aria-label="File input"
       />
 
       {error && (
-        <p className="mt-2 text-sm text-red-600">{error}</p>
+        <p className="mt-2 text-sm text-red-600" role="alert" aria-live="polite">{error}</p>
       )}
     </div>
   );

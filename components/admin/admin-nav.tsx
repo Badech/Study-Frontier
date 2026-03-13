@@ -47,8 +47,9 @@ export function AdminNav() {
                 : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               }
             `}
+            aria-current={isActive ? 'page' : undefined}
           >
-            <Icon className="h-5 w-5" />
+            <Icon className="h-5 w-5" aria-hidden="true" />
             {item.name}
           </Link>
         );

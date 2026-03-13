@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { cmsContentSchema } from '@/lib/validations/cms';
 
 // GET /api/cms?page_slug=homepage&locale=en
 export async function GET(request: NextRequest) {
@@ -62,14 +63,17 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { page_slug, section_key, locale, content, is_published } = body;
-
-    if (!page_slug || !section_key || !locale || !content) {
+    
+    // Validate input with Zod
+    const validation = cmsContentSchema.safeParse(body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Invalid input', details: validation.error.issues },
         { status: 400 }
       );
     }
+
+    const { page_slug, section_key, locale, content, is_published } = validation.data;
 
     // Upsert content
     const { data, error } = await supabase

@@ -44,8 +44,8 @@ export default async function AdminDashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Admin Dashboard</h1>
+        <p className="text-muted-foreground mt-1 text-sm sm:text-base">
           Operations and student management
         </p>
       </div>
@@ -79,8 +79,8 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Students by Stage Distribution */}
-      <div>
-        <h2 className="text-xl font-semibold text-foreground mb-4">Students by Stage</h2>
+      <section aria-labelledby="students-by-stage">
+        <h2 id="students-by-stage" className="text-xl font-semibold text-foreground mb-4">Students by Stage</h2>
         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
           <StatCard
             title="Assessment"
@@ -113,49 +113,49 @@ export default async function AdminDashboardPage() {
             href="/admin/students?stage=pre_departure"
           />
         </div>
-      </div>
+      </section>
 
       {/* Tasks Needing Attention - Highest Priority */}
-      <div>
+      <section aria-labelledby="tasks-heading">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-foreground">Tasks Needing Attention</h2>
+          <h2 id="tasks-heading" className="text-xl font-semibold text-foreground">Tasks Needing Attention</h2>
           <a href="/admin/tasks" className="text-sm text-primary hover:text-primary/80 font-medium">
             View All →
           </a>
         </div>
         <TasksList tasks={tasks} />
-      </div>
+      </section>
 
       {/* Two Column Layout */}
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Recent Students */}
-        <div>
+        <section aria-labelledby="recent-students-heading">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-foreground">Recent Students</h2>
+            <h2 id="recent-students-heading" className="text-xl font-semibold text-foreground">Recent Students</h2>
             <a href="/admin/students" className="text-sm text-primary hover:text-primary/80 font-medium">
               View All →
             </a>
           </div>
           <StudentsTable students={studentsData.students} />
-        </div>
+        </section>
 
         {/* Upcoming Appointments */}
-        <div>
+        <section aria-labelledby="appointments-heading">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-foreground">Upcoming Appointments</h2>
+            <h2 id="appointments-heading" className="text-xl font-semibold text-foreground">Upcoming Appointments</h2>
             <a href="/admin/appointments" className="text-sm text-primary hover:text-primary/80 font-medium">
               View All →
             </a>
           </div>
           <AppointmentsList appointments={appointmentsData.appointments} />
-        </div>
+        </section>
       </div>
 
       {/* Recent Activity */}
-      <div>
-        <h2 className="text-xl font-semibold text-foreground mb-4">Recent Activity</h2>
+      <section aria-labelledby="activity-heading">
+        <h2 id="activity-heading" className="text-xl font-semibold text-foreground mb-4">Recent Activity</h2>
         <ActivityFeed activities={activities} />
-      </div>
+      </section>
     </div>
   );
 }

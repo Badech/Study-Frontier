@@ -7,6 +7,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
+import { approvePaymentSchema } from '@/lib/validations/payments';
 
 export async function POST(
   request: NextRequest,
@@ -14,6 +15,13 @@ export async function POST(
 ) {
   try {
     const { id } = await params;
+    
+    // Validate UUID format
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(id)) {
+      return NextResponse.json({ error: 'Invalid payment ID format' }, { status: 400 });
+    }
+    
     const supabase = await createClient();
 
     // Get current user
@@ -38,7 +46,17 @@ export async function POST(
     }
 
     const body = await request.json();
-    const { external_invoice_id, notes } = body;
+    
+    // Validate input with Zod
+    const validation = approvePaymentSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: validation.error.issues },
+        { status: 400 }
+      );
+    }
+
+    const { external_invoice_id, notes } = validation.data;
 
     // Update payment status to invoice_sent
     const { data: payment, error } = await supabase

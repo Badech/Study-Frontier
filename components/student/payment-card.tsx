@@ -82,7 +82,7 @@ export function PaymentCard({ payments }: PaymentCardProps) {
           )}
 
           <Link
-            href="/dashboard"
+            href="/dashboard/payments"
             className="block text-sm text-blue-600 hover:text-blue-800 font-medium"
           >
             View Payment History →

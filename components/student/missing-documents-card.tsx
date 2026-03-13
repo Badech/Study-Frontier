@@ -93,7 +93,10 @@ export function MissingDocumentsCard({ documents }: MissingDocumentsCardProps) {
               </div>
 
               {/* Action Button */}
-              <button className="flex-shrink-0 inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+              <button 
+                className="flex-shrink-0 inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                aria-label={`Upload ${doc.display_name}`}
+              >
                 Upload
               </button>
             </div>

@@ -62,18 +62,27 @@ export function PaymentList({ studentId }: PaymentListProps) {
   const handleApprove = async (paymentId: string) => {
     const invoiceId = prompt('Enter PayPal Invoice ID:');
     if (!invoiceId) return;
+    
+    // Basic validation
+    if (invoiceId.trim().length === 0) {
+      alert('Invoice ID cannot be empty');
+      return;
+    }
 
     try {
       const response = await fetch(`/api/payments/${paymentId}/approve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          external_invoice_id: invoiceId,
+          external_invoice_id: invoiceId.trim(),
           notes: 'Invoice sent via PayPal',
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to approve payment');
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to approve payment');
+      }
 
       fetchPayments();
     } catch (err) {
@@ -82,6 +91,9 @@ export function PaymentList({ studentId }: PaymentListProps) {
   };
 
   const handleMarkPaid = async (paymentId: string) => {
+    const confirmed = confirm('Mark this payment as paid?');
+    if (!confirmed) return;
+    
     const paymentId_external = prompt('Enter PayPal Payment/Transaction ID (optional):');
 
     try {
@@ -91,11 +103,14 @@ export function PaymentList({ studentId }: PaymentListProps) {
         body: JSON.stringify({
           status: 'paid',
           paid_at: new Date().toISOString(),
-          external_payment_id: paymentId_external || null,
+          external_payment_id: paymentId_external ? paymentId_external.trim() : null,
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to mark payment as paid');
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to mark payment as paid');
+      }
 
       fetchPayments();
     } catch (err) {

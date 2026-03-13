@@ -9,6 +9,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { markNotificationRead, markAllNotificationsRead } from '@/lib/notifications';
+import { markNotificationReadSchema } from '@/lib/validations/notifications';
 
 export async function GET(request: NextRequest) {
   try {
@@ -84,7 +85,17 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { notification_id, mark_all } = body;
+    
+    // Validate input with Zod
+    const validation = markNotificationReadSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: validation.error.issues },
+        { status: 400 }
+      );
+    }
+
+    const { notification_id, mark_all } = validation.data;
 
     if (mark_all) {
       // Mark all as read

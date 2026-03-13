@@ -9,6 +9,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { createNotification, notificationTemplates } from '@/lib/notifications';
+import { createPaymentSchema } from '@/lib/validations/payments';
 
 export async function GET(request: NextRequest) {
   try {
@@ -122,24 +123,26 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const {
-      student_id,
-      amount,
-      currency = 'USD',
-      package_type,
-      description,
-      due_date,
-      payment_provider = 'paypal',
-      installments,
-    } = body;
-
-    // Validate required fields
-    if (!student_id || !amount) {
+    
+    // Validate input with Zod
+    const validation = createPaymentSchema.safeParse(body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'student_id and amount are required' },
+        { error: 'Invalid input', details: validation.error.issues },
         { status: 400 }
       );
     }
+
+    const {
+      student_id,
+      amount,
+      currency,
+      package_type,
+      description,
+      due_date,
+      payment_provider,
+      installments,
+    } = validation.data;
 
     // Create payment record
     const { data: payment, error: paymentError } = await supabase

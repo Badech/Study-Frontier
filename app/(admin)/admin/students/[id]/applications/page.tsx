@@ -107,29 +107,30 @@ export default async function AdminStudentApplicationsPage({
   const summary = await getStudentApplicationSummary(params.id);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
           <Link
             href={`/admin/students/${params.id}`}
-            className="mb-4 inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700"
+            className="mb-4 inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Student Profile
           </Link>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
                 Applications - {(student as any).profile?.full_name || 'Student'}
               </h1>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2 text-sm sm:text-base text-muted-foreground">
                 Manage university applications for this student.
               </p>
             </div>
             <Link
               href={`/admin/students/${params.id}/applications/new`}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              aria-label="Add new application"
             >
               <Plus className="h-4 w-4" />
               Add Application
@@ -139,43 +140,44 @@ export default async function AdminStudentApplicationsPage({
 
         {/* Summary */}
         <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-5">
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm text-gray-600">Total</p>
-            <p className="mt-2 text-2xl font-bold text-gray-900">{summary.total}</p>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-sm text-muted-foreground">Total</p>
+            <p className="mt-2 text-2xl font-bold text-card-foreground" aria-label="Total applications">{summary.total}</p>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm text-gray-600">In Preparation</p>
-            <p className="mt-2 text-2xl font-bold text-blue-600">{summary.in_preparation}</p>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-sm text-muted-foreground">In Preparation</p>
+            <p className="mt-2 text-2xl font-bold text-blue-600" aria-label="Applications in preparation">{summary.in_preparation}</p>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm text-gray-600">Submitted</p>
-            <p className="mt-2 text-2xl font-bold text-yellow-600">{summary.submitted}</p>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-sm text-muted-foreground">Submitted</p>
+            <p className="mt-2 text-2xl font-bold text-yellow-600" aria-label="Submitted applications">{summary.submitted}</p>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm text-gray-600">Accepted</p>
-            <p className="mt-2 text-2xl font-bold text-green-600">{summary.accepted}</p>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-sm text-muted-foreground">Accepted</p>
+            <p className="mt-2 text-2xl font-bold text-green-600" aria-label="Accepted applications">{summary.accepted}</p>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm text-gray-600">Rejected</p>
-            <p className="mt-2 text-2xl font-bold text-red-600">{summary.rejected}</p>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-sm text-muted-foreground">Rejected</p>
+            <p className="mt-2 text-2xl font-bold text-red-600" aria-label="Rejected applications">{summary.rejected}</p>
           </div>
         </div>
 
         {/* Applications */}
         {applications.length === 0 ? (
-          <div className="rounded-lg border border-gray-200 bg-white p-12 text-center">
-            <GraduationCap className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-4 text-lg font-medium text-gray-900">No applications yet</h3>
-            <p className="mt-2 text-gray-600">
+          <div className="rounded-lg border border-border bg-card p-12 text-center">
+            <GraduationCap className="mx-auto h-12 w-12 text-muted-foreground" aria-hidden="true" />
+            <h3 className="mt-4 text-lg font-medium text-card-foreground">No applications yet</h3>
+            <p className="mt-2 text-muted-foreground">
               Create the first application for this student.
             </p>
             <Link
               href={`/admin/students/${params.id}/applications/new`}
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              aria-label="Add first application"
             >
               <Plus className="h-4 w-4" />
               Add Application

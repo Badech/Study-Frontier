@@ -101,7 +101,10 @@ export function NextActionCard({ task }: NextActionCardProps) {
 
         {/* CTA Button */}
         <div className="pt-2">
-          <button className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 transition-colors">
+          <button 
+            className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 transition-colors"
+            aria-label={`Take action on: ${task.title}`}
+          >
             Take Action
           </button>
         </div>

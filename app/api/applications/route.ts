@@ -11,16 +11,29 @@ import { createApplicationSchema } from '@/lib/validations/applications';
 // GET /api/applications - Get applications for a student
 export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
-    if (!user) {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Get user profile to check role
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile) {
+      return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
     }
 
     const { searchParams } = new URL(request.url);
     const studentId = searchParams.get('studentId');
 
     // Students can only get their own applications
-    const targetStudentId = user.role === 'student' ? user.id : studentId;
+    const targetStudentId = profile.role === 'student' ? user.id : studentId;
 
     if (!targetStudentId) {
       return NextResponse.json(
@@ -28,8 +41,6 @@ export async function GET(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    const supabase = await createClient();
 
     const { data: applications, error } = await supabase
       .from('applications')
@@ -60,8 +71,21 @@ export async function GET(request: NextRequest) {
 // POST /api/applications - Create a new application (admin only)
 export async function POST(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
-    if (!user || user.role !== 'admin') {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check admin role
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile || profile.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -76,8 +100,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    const supabase = await createClient();
 
     // Create application
     const { data: application, error } = await supabase

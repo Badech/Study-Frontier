@@ -19,38 +19,61 @@ export interface UserProfile {
 
 /**
  * Get current user from server component
+ * Returns the authenticated user or null if not authenticated
  */
 export async function getCurrentUser(): Promise<User | null> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  return user;
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error } = await supabase.auth.getUser();
+    
+    if (error) {
+      console.error('Error getting current user:', error);
+      return null;
+    }
+    
+    return user;
+  } catch (error) {
+    console.error('Unexpected error in getCurrentUser:', error);
+    return null;
+  }
 }
 
 /**
  * Get current user profile with role
  */
 export async function getUserProfile(): Promise<UserProfile | null> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
 
-  if (!user) return null;
+    if (userError || !user) {
+      console.error('Error getting user:', userError);
+      return null;
+    }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
 
-  if (!profile) return null;
+    if (profileError || !profile) {
+      console.error('Error getting profile:', profileError);
+      return null;
+    }
 
-  return {
-    id: profile.id,
-    email: user.email!,
-    role: profile.role as UserRole,
-    full_name: profile.full_name,
-    phone: profile.phone,
-    created_at: profile.created_at,
-  };
+    return {
+      id: profile.id,
+      email: user.email!,
+      role: profile.role as UserRole,
+      full_name: profile.full_name,
+      phone: profile.phone,
+      created_at: profile.created_at,
+    };
+  } catch (error) {
+    console.error('Unexpected error in getUserProfile:', error);
+    return null;
+  }
 }
 
 /**
@@ -127,25 +150,34 @@ export async function getCurrentUserClient(): Promise<User | null> {
  * Client-side: Get user profile
  */
 export async function getUserProfileClient(): Promise<UserProfile | null> {
-  const supabase = createBrowserClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  try {
+    const supabase = createBrowserClient();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
 
-  if (!user) return null;
+    if (userError || !user) {
+      return null;
+    }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
 
-  if (!profile) return null;
+    if (profileError || !profile) {
+      return null;
+    }
 
-  return {
-    id: profile.id,
-    email: user.email!,
-    role: profile.role as UserRole,
-    full_name: profile.full_name,
-    phone: profile.phone,
-    created_at: profile.created_at,
-  };
+    return {
+      id: profile.id,
+      email: user.email!,
+      role: profile.role as UserRole,
+      full_name: profile.full_name,
+      phone: profile.phone,
+      created_at: profile.created_at,
+    };
+  } catch (error) {
+    console.error('Unexpected error in getUserProfileClient:', error);
+    return null;
+  }
 }

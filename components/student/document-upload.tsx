@@ -130,13 +130,14 @@ export function DocumentUploadCard({ document, onUploadComplete }: DocumentUploa
               onClick={handleUpload}
               disabled={isUploading}
               className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              aria-busy={isUploading}
             >
               {isUploading ? 'Uploading...' : 'Upload Document'}
             </button>
           )}
 
           {uploadError && (
-            <p className="text-sm text-red-600">{uploadError}</p>
+            <p className="text-sm text-red-600" role="alert" aria-live="polite">{uploadError}</p>
           )}
         </div>
       )}

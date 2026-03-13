@@ -43,13 +43,13 @@ export function Navigation() {
             ))}
             <LanguageSwitcher />
             <Link
-              href="/login"
+              href={`/${locale}/login`}
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               {t('login')}
             </Link>
             <Button asChild size="sm">
-              <Link href="/signup">{t('getStarted')}</Link>
+              <Link href={`/${locale}/signup`}>{t('getStarted')}</Link>
             </Button>
           </div>
 
@@ -58,6 +58,8 @@ export function Navigation() {
             className="md:hidden"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -65,7 +67,7 @@ export function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="border-t border-border py-4 md:hidden">
+          <div className="border-t border-border py-4 md:hidden" id="mobile-menu">
             <div className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <Link
@@ -81,14 +83,14 @@ export function Navigation() {
                 <LanguageSwitcher />
               </div>
               <Link
-                href="/login"
+                href={`/${locale}/login`}
                 className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={() => setIsOpen(false)}
               >
                 {t('login')}
               </Link>
               <Button asChild size="sm" className="w-full">
-                <Link href="/signup" onClick={() => setIsOpen(false)}>
+                <Link href={`/${locale}/signup`} onClick={() => setIsOpen(false)}>
                   {t('getStarted')}
                 </Link>
               </Button>

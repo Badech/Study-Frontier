@@ -21,21 +21,28 @@ export function LanguageSwitcher() {
 
     // Remove current locale from pathname and add new locale
     const pathnameWithoutLocale = pathname.replace(`/${locale}`, '');
-    router.push(`/${newLocale}${pathnameWithoutLocale}`);
+    router.push(`/${newLocale}${pathnameWithoutLocale || ''}`);
   };
 
   return (
     <div className="relative group">
       <button
         className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-        aria-label="Switch language"
+        aria-label={`Switch language. Current: ${languageNames[locale]}`}
+        aria-haspopup="true"
+        aria-expanded="false"
+        type="button"
       >
-        <Globe className="h-4 w-4" />
+        <Globe className="h-4 w-4" aria-hidden="true" />
         <span className="hidden sm:inline">{languageNames[locale]}</span>
       </button>
       
       {/* Dropdown */}
-      <div className="absolute right-0 top-full mt-2 hidden w-32 rounded-lg border border-border bg-background py-1 shadow-lg group-hover:block">
+      <div 
+        className="absolute right-0 top-full mt-2 hidden w-32 rounded-lg border border-border bg-background py-1 shadow-lg group-hover:block"
+        role="menu"
+        aria-label="Language options"
+      >
         {locales.map((loc) => (
           <button
             key={loc}
@@ -43,6 +50,8 @@ export function LanguageSwitcher() {
             className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-muted ${
               loc === locale ? 'font-semibold text-primary' : ''
             }`}
+            role="menuitem"
+            aria-current={loc === locale ? 'true' : undefined}
           >
             {languageNames[loc]}
           </button>

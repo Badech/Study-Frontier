@@ -53,9 +53,28 @@ export function PaymentRequestForm({
     setError('');
 
     try {
+      // Validate amount
+      const amount = parseFloat(formData.amount);
+      if (isNaN(amount) || amount <= 0) {
+        throw new Error('Amount must be a positive number');
+      }
+      
+      // Validate installments if enabled
+      if (useInstallments) {
+        const totalInstallments = installments.reduce((sum, inst) => sum + inst.amount, 0);
+        if (Math.abs(totalInstallments - amount) > 0.01) {
+          throw new Error('Installment amounts must sum to the total amount');
+        }
+        
+        const hasEmptyDates = installments.some(inst => !inst.due_date);
+        if (hasEmptyDates) {
+          throw new Error('All installments must have due dates');
+        }
+      }
+
       const payload = {
         student_id: studentId,
-        amount: parseFloat(formData.amount),
+        amount,
         currency: formData.currency,
         package_type: formData.package_type || null,
         description: formData.description || null,
@@ -125,6 +144,7 @@ export function PaymentRequestForm({
             <input
               type="number"
               step="0.01"
+              min="0"
               required
               value={formData.amount}
               onChange={(e) =>
@@ -132,6 +152,8 @@ export function PaymentRequestForm({
               }
               className="w-full px-3 py-2 border rounded-md"
               placeholder="0.00"
+              aria-label="Payment amount"
+              aria-required="true"
             />
           </div>
 

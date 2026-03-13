@@ -17,22 +17,45 @@ interface SignOutButtonProps {
 export function SignOutButton({ className, children }: SignOutButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSignOut = async () => {
     setLoading(true);
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push('/login');
-    router.refresh();
+    setError(null);
+    
+    try {
+      const supabase = createClient();
+      const { error: signOutError } = await supabase.auth.signOut();
+      
+      if (signOutError) {
+        throw signOutError;
+      }
+      
+      router.push('/login');
+      router.refresh();
+    } catch (err) {
+      console.error('Sign out error:', err);
+      setError('Failed to sign out. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (
-    <button
-      onClick={handleSignOut}
-      disabled={loading}
-      className={className}
-    >
-      {children || (loading ? 'Signing out...' : 'Sign Out')}
-    </button>
+    <>
+      <button
+        onClick={handleSignOut}
+        disabled={loading}
+        className={className}
+        aria-busy={loading}
+        aria-label="Sign out of your account"
+      >
+        {children || (loading ? 'Signing out...' : 'Sign Out')}
+      </button>
+      {error && (
+        <div className="text-xs text-red-600 mt-1" role="alert" aria-live="polite">
+          {error}
+        </div>
+      )}
+    </>
   );
 }

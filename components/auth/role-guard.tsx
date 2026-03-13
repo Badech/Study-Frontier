@@ -20,19 +20,35 @@ export function RoleGuard({ allowedRoles, children, fallback = null }: RoleGuard
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function checkAccess() {
-      const profile = await getUserProfileClient();
-      if (profile && allowedRoles.includes(profile.role)) {
-        setHasAccess(true);
+      try {
+        const profile = await getUserProfileClient();
+        if (isMounted) {
+          if (profile && allowedRoles.includes(profile.role)) {
+            setHasAccess(true);
+          }
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error checking role access:', error);
+        if (isMounted) {
+          setHasAccess(false);
+          setLoading(false);
+        }
       }
-      setLoading(false);
     }
 
     checkAccess();
+
+    return () => {
+      isMounted = false;
+    };
   }, [allowedRoles]);
 
   if (loading) {
-    return null;
+    return null; // or a loading skeleton
   }
 
   return hasAccess ? <>{children}</> : <>{fallback}</>;
@@ -51,20 +67,36 @@ export function WriteGuard({ children, fallback = null }: WriteGuardProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function checkWriteAccess() {
-      const profile = await getUserProfileClient();
-      // Parents cannot write
-      if (profile && profile.role !== 'parent') {
-        setCanWrite(true);
+      try {
+        const profile = await getUserProfileClient();
+        if (isMounted) {
+          // Parents cannot write
+          if (profile && profile.role !== 'parent') {
+            setCanWrite(true);
+          }
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error checking write access:', error);
+        if (isMounted) {
+          setCanWrite(false);
+          setLoading(false);
+        }
       }
-      setLoading(false);
     }
 
     checkWriteAccess();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (loading) {
-    return null;
+    return null; // or a loading skeleton
   }
 
   return canWrite ? <>{children}</> : <>{fallback}</>;
