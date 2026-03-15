@@ -80,7 +80,7 @@ export default async function AssessmentSuccessPage({ params }: { params: Promis
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <a href="https://wa.me/17168904684" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/15716904684?text=Hi%2C%20I%20just%20completed%20the%20eligibility%20assessment" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-4 w-4" />
                 Chat on WhatsApp
               </a>
