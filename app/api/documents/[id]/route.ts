@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getCurrentUser } from '@/lib/auth/utils';
+import { getUserProfile } from '@/lib/auth/utils';
 
 // GET /api/documents/[id] - Get a single document
 export async function GET(
@@ -14,7 +14,7 @@ export async function GET(
 ) {
   const { id } = await params;
   try {
-    const user = await getCurrentUser();
+    const user = await getUserProfile();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -55,8 +55,8 @@ export async function PATCH(
 ) {
   const { id } = await params;
   try {
-    const user = await getCurrentUser();
-    if (!user || user.role !== 'admin') {
+    const user = await getUserProfile();
+    if (!user || !['admin', 'counselor'].includes(user.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -90,8 +90,8 @@ export async function DELETE(
 ) {
   const { id } = await params;
   try {
-    const user = await getCurrentUser();
-    if (!user || user.role !== 'admin') {
+    const user = await getUserProfile();
+    if (!user || !['admin', 'counselor'].includes(user.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 

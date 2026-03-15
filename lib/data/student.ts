@@ -109,15 +109,18 @@ export async function getNextAction(studentId: string): Promise<Task | null> {
 
 /**
  * Get documents that need student attention (missing or needs correction)
+ * Only returns documents that are required and not yet approved
  */
 export async function getMissingDocuments(studentId: string): Promise<Document[]> {
   const supabase = await createClient();
 
+  // Fetch all document requirements for this student
   const { data, error } = await supabase
     .from('documents')
     .select('*')
     .eq('student_id', studentId)
     .in('status', ['missing', 'needs_correction'])
+    .eq('is_required', true)
     .order('priority', { ascending: false })
     .order('due_date', { ascending: true, nullsFirst: false });
 
@@ -126,7 +129,26 @@ export async function getMissingDocuments(studentId: string): Promise<Document[]
     return [];
   }
 
-  return data || [];
+  console.log(`getMissingDocuments for student ${studentId}:`, {
+    totalDocuments: data?.length || 0,
+    documents: data?.map(d => ({ type: d.document_type, status: d.status, required: d.is_required }))
+  });
+
+  // Filter to ensure we only return documents that actually need action
+  const missingDocs = (data || []).filter(doc => {
+    // Show if status is needs_correction (always needs attention)
+    if (doc.status === 'needs_correction') return true;
+    
+    // Show if status is missing and it's a required document
+    if (doc.status === 'missing' && doc.is_required) return true;
+    
+    // Don't show if already uploaded, under review, or approved
+    return false;
+  });
+
+  console.log(`After filtering: ${missingDocs.length} documents need attention`);
+
+  return missingDocs;
 }
 
 // Document status summary moved to Sprint 06 section below

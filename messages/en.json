@@ -8,14 +8,17 @@
     "institutions": "For Institutions",
     "contact": "Contact",
     "login": "Login",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "getAssessed": "Get Assessed"
   },
   "hero": {
     "subtitle": "Premium USA Study Consulting",
     "title": "Your Journey to American Universities Starts Here",
     "description": "Clear Process. No Confusion. We guide Moroccan students through every step of studying in the USA—from university selection to visa approval.",
     "startJourney": "Start Your Journey",
-    "howItWorks": "How It Works"
+    "howItWorks": "How It Works",
+    "getAssessed": "Free Eligibility Assessment",
+    "bookConsultation": "Book Consultation"
   },
   "trustIndicators": {
     "studentsGuided": "Students Guided",
@@ -77,7 +80,8 @@
   "cta": {
     "title": "Ready to Start Your Journey?",
     "description": "Schedule a free consultation to discuss your study abroad goals and see how we can help.",
-    "bookConsultation": "Book Free Consultation"
+    "bookConsultation": "Book Free Consultation",
+    "getAssessed": "Get Assessed Now"
   },
   "footer": {
     "tagline": "Clear Process. No Confusion.",

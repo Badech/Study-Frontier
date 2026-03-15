@@ -148,13 +148,21 @@ export async function POST(request: NextRequest) {
 
     // Update document status
     const newStatus = uploadType === 'revision' ? 'uploaded' : 'uploaded';
-    await supabase
+    const { data: updateResult, error: updateError } = await supabase
       .from('documents')
       .update({ 
         status: newStatus,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', documentId);
+      .eq('id', documentId)
+      .select();
+
+    console.log('Document status update:', {
+      documentId,
+      newStatus,
+      updateResult,
+      updateError
+    });
 
     return NextResponse.json({
       success: true,

@@ -6,11 +6,110 @@
 'use client';
 
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { FileUpload } from '@/components/ui/file-upload';
 import { StatusBadge } from '@/components/ui/status-badge';
 import type { DocumentWithUploads } from '@/types';
-import { CheckCircle, AlertCircle, Clock, XCircle } from 'lucide-react';
+import { CheckCircle, AlertCircle, Clock, XCircle, Upload } from 'lucide-react';
 
+// Simple upload button for document pages
+interface SimpleDocumentUploadProps {
+  studentId: string;
+  documentType: string;
+  existingDocument?: any;
+}
+
+export function DocumentUpload({ studentId, documentType, existingDocument }: SimpleDocumentUploadProps) {
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      // Step 1: Create or get document record
+      let documentId = existingDocument?.document_id;
+      
+      console.log('Existing document:', existingDocument);
+      console.log('Document ID:', documentId);
+      
+      if (!documentId) {
+        console.log('Creating new document record...');
+        // Create new document record
+        const createResponse = await fetch('/api/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_id: studentId,
+            document_type: documentType,
+          }),
+        });
+
+        const createData = await createResponse.json();
+        console.log('Create response:', createResponse.status, createData);
+
+        if (!createResponse.ok) {
+          throw new Error(createData.error || 'Failed to create document record');
+        }
+
+        documentId = createData.document.id;
+        console.log('Created document ID:', documentId);
+      }
+
+      // Step 2: Upload file
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('documentId', documentId);
+      formData.append('uploadType', 'primary');
+
+      const response = await fetch('/api/documents/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
+      }
+      
+      alert('Document uploaded successfully!');
+      window.location.reload();
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      alert(`Failed to upload: ${error.message}`);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="file"
+        id={`upload-${documentType}`}
+        className="hidden"
+        onChange={handleFileSelect}
+        accept=".pdf,.jpg,.jpeg,.png"
+        disabled={isUploading}
+      />
+      <label htmlFor={`upload-${documentType}`}>
+        <Button
+          type="button"
+          size="sm"
+          variant={existingDocument ? "outline" : "default"}
+          disabled={isUploading}
+          onClick={() => document.getElementById(`upload-${documentType}`)?.click()}
+        >
+          <Upload className="h-4 w-4 mr-2" />
+          {isUploading ? 'Uploading...' : existingDocument ? 'Replace' : 'Upload'}
+        </Button>
+      </label>
+    </div>
+  );
+}
+
+// Original component for backward compatibility
 interface DocumentUploadProps {
   document: DocumentWithUploads;
   onUploadComplete?: () => void;

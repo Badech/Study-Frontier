@@ -8,7 +8,7 @@
 import { useState } from 'react';
 import { StatusBadge } from '@/components/ui/status-badge';
 import type { DocumentWithUploads } from '@/types';
-import { CheckCircle, XCircle, Eye, Download } from 'lucide-react';
+import { CheckCircle, XCircle, Eye, Download, Trash2, ExternalLink } from 'lucide-react';
 
 interface DocumentReviewCardProps {
   document: DocumentWithUploads;
@@ -75,6 +75,31 @@ export function DocumentReviewCard({ document, studentName, onReviewComplete }: 
     }
   };
 
+  const handleView = () => {
+    if (!currentUpload) return;
+    // Open in new tab
+    window.open(`/api/documents/${document.id}/view`, '_blank');
+  };
+
+  const handleDelete = async () => {
+    if (!confirm(`Are you sure you want to delete "${document.display_name}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/documents/${document.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Delete failed');
+
+      onReviewComplete?.(); // Refresh the parent component
+    } catch (error) {
+      console.error('Delete error:', error);
+      setError('Failed to delete document');
+    }
+  };
+
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       {/* Header */}
@@ -96,20 +121,36 @@ export function DocumentReviewCard({ document, studentName, onReviewComplete }: 
       {currentUpload ? (
         <div className="mb-4 rounded-md bg-gray-50 p-3">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex-1">
               <p className="text-sm font-medium text-gray-700">{currentUpload.file_name}</p>
               <p className="text-xs text-gray-500">
                 Uploaded {new Date(currentUpload.uploaded_at).toLocaleDateString()} •{' '}
                 Version {currentUpload.version}
               </p>
             </div>
-            <button
-              onClick={handleDownload}
-              className="rounded-md p-2 text-blue-600 hover:bg-blue-50"
-              title="Download"
-            >
-              <Download className="h-5 w-5" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={handleView}
+                className="rounded-md p-2 text-blue-600 hover:bg-blue-50"
+                title="View"
+              >
+                <ExternalLink className="h-5 w-5" />
+              </button>
+              <button
+                onClick={handleDownload}
+                className="rounded-md p-2 text-blue-600 hover:bg-blue-50"
+                title="Download"
+              >
+                <Download className="h-5 w-5" />
+              </button>
+              <button
+                onClick={handleDelete}
+                className="rounded-md p-2 text-red-600 hover:bg-red-50"
+                title="Delete Document"
+              >
+                <Trash2 className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </div>
       ) : (

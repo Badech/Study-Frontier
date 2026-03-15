@@ -5,8 +5,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 
 const socialLinks = [
-  { href: "#", icon: Facebook, label: "Facebook" },
-  { href: "#", icon: Instagram, label: "Instagram" },
+  { href: "https://web.facebook.com/studyFrontier/", icon: Facebook, label: "Facebook" },
+  { href: "https://www.instagram.com/study.frontier1/", icon: Instagram, label: "Instagram" },
   { href: "#", icon: Linkedin, label: "LinkedIn" },
 ];
 
@@ -97,19 +97,19 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <Mail className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                <a href="mailto:info@studyfrontier.com" className="hover:text-primary">
-                  info@studyfrontier.com
+                <a href="mailto:Contact@studyfrontier.com" className="hover:text-primary">
+                  Contact@studyfrontier.com
                 </a>
               </li>
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <Phone className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                <a href="tel:+212600000000" className="hover:text-primary">
-                  +212 6XX XXX XXX
+                <a href="tel:+5716904684" className="hover:text-primary">
+                  +57 16904684
                 </a>
               </li>
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                <span>Casablanca, Morocco</span>
+                <span>Washington DC, USA</span>
               </li>
             </ul>
           </div>

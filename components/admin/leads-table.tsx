@@ -60,6 +60,9 @@ export function LeadsTable({ leads }: LeadsTableProps) {
               <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Submitted
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="bg-card divide-y divide-border">
@@ -97,6 +100,14 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                   {new Date(lead.created_at).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <a 
+                    href={`./leads/${lead.id}`}
+                    className="text-sm font-medium text-primary hover:text-primary/80"
+                  >
+                    View Details →
+                  </a>
                 </td>
               </tr>
             ))}

@@ -234,8 +234,20 @@ FOR SELECT
 TO authenticated
 USING (student_id = auth.uid());
 
--- Students cannot directly create document requirements (admin-defined)
--- But this policy allows future self-service features if needed
+-- Students can update status of their own documents (when uploading)
+CREATE POLICY "Students can update own document status"
+ON documents
+FOR UPDATE
+TO authenticated
+USING (student_id = auth.uid())
+WITH CHECK (student_id = auth.uid());
+
+-- Students can insert their own document records
+CREATE POLICY "Students can create own documents"
+ON documents
+FOR INSERT
+TO authenticated
+WITH CHECK (student_id = auth.uid());
 
 -- Admins can view all documents
 CREATE POLICY "Admins can view all documents"

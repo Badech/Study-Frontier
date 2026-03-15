@@ -18,17 +18,20 @@ import {
   FileText,
 } from 'lucide-react';
 
-const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Leads', href: '/admin/leads', icon: UserPlus },
-  { name: 'Students', href: '/admin/students', icon: Users },
-  { name: 'Tasks', href: '/admin/tasks', icon: CheckSquare },
-  { name: 'Appointments', href: '/admin/appointments', icon: Calendar },
-  { name: 'CMS', href: '/admin/cms', icon: FileText },
-];
-
 export function AdminNav() {
   const pathname = usePathname();
+  
+  // Extract locale from pathname (e.g., /en/admin -> en)
+  const locale = pathname?.split('/')[1] || 'en';
+  
+  const navigation = [
+    { name: 'Dashboard', href: `/${locale}/admin`, icon: LayoutDashboard },
+    { name: 'Leads', href: `/${locale}/admin/leads`, icon: UserPlus },
+    { name: 'Students', href: `/${locale}/admin/students`, icon: Users },
+    { name: 'Tasks', href: `/${locale}/admin/tasks`, icon: CheckSquare },
+    { name: 'Appointments', href: `/${locale}/admin/appointments`, icon: Calendar },
+    { name: 'CMS', href: `/${locale}/admin/cms`, icon: FileText },
+  ];
 
   return (
     <nav className="space-y-1">

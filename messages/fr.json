@@ -1,92 +1,96 @@
 {
   "navigation": {
     "home": "Accueil",
-    "about": "À Propos",
+    "about": "À propos",
     "services": "Services",
     "studyUsa": "Étudier aux USA",
-    "process": "Notre Processus",
-    "institutions": "Pour les Institutions",
+    "process": "Notre processus",
+    "institutions": "Pour les institutions",
     "contact": "Contact",
     "login": "Connexion",
-    "getStarted": "Commencer"
+    "getStarted": "Commencer",
+    "getAssessed": "Évaluation gratuite"
   },
   "hero": {
     "subtitle": "Conseil Premium pour Études aux USA",
-    "title": "Votre Voyage vers les Universités Américaines Commence Ici",
-    "description": "Processus Clair. Aucune Confusion. Nous guidons les étudiants marocains à travers chaque étape des études aux USA—de la sélection universitaire à l'approbation du visa.",
-    "startJourney": "Commencez Votre Voyage",
-    "howItWorks": "Comment Ça Marche"
+    "title": "Votre parcours vers les universités américaines commence ici",
+    "description": "Processus clair. Aucune confusion. Nous guidons les étudiants marocains à travers chaque étape des études aux USA.",
+    "startJourney": "Commencez votre parcours",
+    "howItWorks": "Comment ça marche",
+    "getAssessed": "Évaluation d'éligibilité gratuite",
+    "bookConsultation": "Réserver une consultation"
   },
   "trustIndicators": {
-    "studentsGuided": "Étudiants Guidés",
-    "partnerUniversities": "Universités Partenaires",
-    "visaSuccessRate": "Taux de Réussite Visa"
+    "studentsGuided": "Étudiants guidés",
+    "partnerUniversities": "Universités partenaires",
+    "visaSuccessRate": "Taux de réussite des visas"
   },
   "whyChooseUs": {
-    "title": "Pourquoi Choisir Study Frontier?",
-    "subtitle": "Nous combinons l'expertise humaine avec la technologie moderne pour offrir une expérience fluide et fiable.",
+    "title": "Pourquoi choisir Study Frontier?",
+    "subtitle": "Nous combinons l'expertise humaine avec la technologie moderne pour offrir une expérience fluide et digne de confiance.",
     "expertGuidance": {
-      "title": "Guidance Experte",
-      "description": "Conseillers expérimentés qui comprennent à la fois le système éducatif américain et les besoins des étudiants marocains."
+      "title": "Conseil d'expert",
+      "description": "Conseillers expérimentés qui comprennent le système éducatif américain et les besoins des étudiants marocains."
     },
     "clearProcess": {
-      "title": "Processus Clair",
-      "description": "Feuille de route étape par étape de l'évaluation initiale au pré-départ. Aucune surprise, aucune confusion."
+      "title": "Processus clair",
+      "description": "Feuille de route étape par étape de l'évaluation initiale au pré-départ. Pas de surprises, pas de confusion."
     },
     "personalizedSupport": {
-      "title": "Soutien Personnalisé",
+      "title": "Soutien personnalisé",
       "description": "Conseil individuel adapté à vos objectifs académiques et à votre situation financière."
     },
     "usaFocus": {
-      "title": "Focus USA d'Abord",
-      "description": "Spécialisé exclusivement dans les universités américaines. Partenariats solides et connaissances d'initiés."
+      "title": "Focus USA",
+      "description": "Spécialisés exclusivement dans les universités américaines. Partenariats solides et connaissances privilégiées."
     }
   },
   "services": {
-    "title": "Nos Services",
-    "subtitle": "Packages de soutien complets conçus pour chaque étape de votre voyage.",
+    "title": "Nos services",
+    "subtitle": "Forfaits de soutien complets conçus pour chaque étape de votre parcours.",
     "universitySelection": {
-      "title": "Sélection Universitaire",
+      "title": "Sélection d'université",
       "features": {
         "matching": "Correspondance universitaire personnalisée",
-        "strategy": "Planification de stratégie de candidature",
-        "review": "Révision d'essais et de SOP"
+        "strategy": "Planification de la stratégie de candidature",
+        "review": "Révision des essais et de la lettre de motivation"
       },
-      "learnMore": "En Savoir Plus"
+      "learnMore": "En savoir plus"
     },
     "completeJourney": {
-      "title": "Voyage Complet",
-      "badge": "Le Plus Populaire",
+      "title": "Parcours complet",
+      "badge": "Le plus populaire",
       "features": {
-        "application": "Soutien complet de bout en bout",
-        "visa": "Préparation visa et préparation d'entrevue",
+        "application": "Soutien complet aux candidatures",
+        "visa": "Préparation au visa et à l'entretien",
         "preDeparture": "Orientation pré-départ"
       },
       "getStarted": "Commencer"
     },
     "visaSupport": {
-      "title": "Soutien Visa",
+      "title": "Soutien visa",
       "features": {
-        "ds160": "Assistance formulaire DS-160",
-        "interview": "Préparation d'entrevue",
-        "verification": "Vérification de documents"
+        "ds160": "Aide au formulaire DS-160",
+        "interview": "Préparation à l'entretien",
+        "verification": "Vérification des documents"
       },
-      "learnMore": "En Savoir Plus"
+      "learnMore": "En savoir plus"
     }
   },
   "cta": {
-    "title": "Prêt à Commencer Votre Voyage?",
-    "description": "Planifiez une consultation gratuite pour discuter de vos objectifs d'études à l'étranger et voir comment nous pouvons vous aider.",
-    "bookConsultation": "Réserver une Consultation Gratuite"
+    "title": "Prêt à commencer votre parcours?",
+    "description": "Planifiez une consultation gratuite pour discuter de vos objectifs d'études à l'étranger.",
+    "bookConsultation": "Réserver une consultation gratuite",
+    "getAssessed": "Être évalué maintenant"
   },
   "footer": {
-    "tagline": "Processus Clair. Aucune Confusion.",
+    "tagline": "Processus clair. Aucune confusion.",
     "description": "Conseil éducatif premium pour les étudiants marocains poursuivant des études aux USA.",
-    "quickLinks": "Liens Rapides",
+    "quickLinks": "Liens rapides",
     "legal": "Légal",
-    "privacy": "Politique de Confidentialité",
-    "terms": "Conditions Générales",
-    "refund": "Politique de Remboursement",
+    "privacy": "Politique de confidentialité",
+    "terms": "Termes et conditions",
+    "refund": "Politique de remboursement",
     "rights": "Tous droits réservés."
   }
 }

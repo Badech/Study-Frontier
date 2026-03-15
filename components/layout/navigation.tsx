@@ -48,8 +48,8 @@ export function Navigation() {
             >
               {t('login')}
             </Link>
-            <Button asChild size="sm">
-              <Link href={`/${locale}/signup`}>{t('getStarted')}</Link>
+            <Button asChild size="sm" variant="outline">
+              <Link href={`/${locale}/assessment`}>{t('getAssessed')}</Link>
             </Button>
           </div>
 
@@ -89,9 +89,9 @@ export function Navigation() {
               >
                 {t('login')}
               </Link>
-              <Button asChild size="sm" className="w-full">
-                <Link href={`/${locale}/signup`} onClick={() => setIsOpen(false)}>
-                  {t('getStarted')}
+              <Button asChild size="sm" className="w-full" variant="outline">
+                <Link href={`/${locale}/assessment`} onClick={() => setIsOpen(false)}>
+                  {t('getAssessed')}
                 </Link>
               </Button>
             </div>

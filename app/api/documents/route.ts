@@ -78,20 +78,60 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check admin role
+    // Check user role
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single();
 
-    if (!profile || profile.role !== 'admin') {
+    if (!profile || !['admin', 'student'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const body = await request.json();
     
-    // Validate input
+    // Simple validation for students (they only provide student_id, document_type, status)
+    if (profile.role === 'student') {
+      // Students can only create their own documents
+      if (body.student_id !== user.id) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      }
+
+      // Generate display name from document type
+      const displayName = body.document_type
+        .split('_')
+        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+
+      // Create simple document record for student upload
+      const { data: document, error } = await supabase
+        .from('documents')
+        .insert({
+          student_id: user.id,
+          document_type: body.document_type,
+          display_name: displayName,
+          status: 'missing', // Valid statuses: missing, uploaded, under_review, needs_correction, approved
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Create document error:', error);
+        return NextResponse.json(
+          { error: 'Failed to create document' },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        document: document,
+        message: 'Document created successfully',
+      });
+    }
+
+    // Admin flow with full validation
     const validation = createDocumentSchema.safeParse(body);
 
     if (!validation.success) {
@@ -128,7 +168,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      data: document,
+      document: document,
       message: 'Document created successfully',
     });
 
