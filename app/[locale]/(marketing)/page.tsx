@@ -3,12 +3,11 @@ import { getTranslations } from 'next-intl/server';
 import { HeroSection } from "@/components/marketing/hero-section";
 import { FeatureCard } from "@/components/marketing/feature-card";
 import { HowItWorksSection } from "@/components/marketing/how-it-works-section";
-import { StudyPathwaysSection } from "@/components/marketing/study-pathways-section";
 import { PackagesSection } from "@/components/marketing/packages-section";
 import { FounderSection } from "@/components/marketing/founder-section";
 import { FAQSection } from "@/components/marketing/faq-section";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, FileCheck, Users, Globe, ArrowRight, CheckCircle2 } from "lucide-react";
+import { GraduationCap, FileCheck, Users, Globe, ArrowRight, CheckCircle2, Shield } from "lucide-react";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -33,21 +32,30 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         }
       />
 
-      {/* Trust Indicators */}
+      {/* Trust Indicators - Updated to use qualitative goals instead of unverified numbers */}
       <section className="border-y border-border bg-muted/20 py-12" id="trust-indicators">
         <div className="container mx-auto px-4">
           <div className="grid gap-8 text-center md:grid-cols-3">
             <div>
-              <div className="text-4xl font-bold text-primary">100+</div>
-              <p className="mt-2 text-sm text-muted-foreground">{t('trustIndicators.studentsGuided')}</p>
+              <div className="mb-2">
+                <CheckCircle2 className="h-12 w-12 text-primary mx-auto" />
+              </div>
+              <p className="text-lg font-semibold text-foreground">Clear Process</p>
+              <p className="mt-2 text-sm text-muted-foreground">Step-by-step guidance from assessment to arrival</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-primary">50+</div>
-              <p className="mt-2 text-sm text-muted-foreground">{t('trustIndicators.partnerUniversities')}</p>
+              <div className="mb-2">
+                <Users className="h-12 w-12 text-primary mx-auto" />
+              </div>
+              <p className="text-lg font-semibold text-foreground">Expert Support</p>
+              <p className="mt-2 text-sm text-muted-foreground">Former U.S. students who understand your journey</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-primary">95%</div>
-              <p className="mt-2 text-sm text-muted-foreground">{t('trustIndicators.visaSuccessRate')}</p>
+              <div className="mb-2">
+                <Shield className="h-12 w-12 text-primary mx-auto" />
+              </div>
+              <p className="text-lg font-semibold text-foreground">Honest Guidance</p>
+              <p className="mt-2 text-sm text-muted-foreground">No false promises, just realistic advice</p>
             </div>
           </div>
         </div>
@@ -55,9 +63,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       {/* How It Works - NEW */}
       <HowItWorksSection />
-
-      {/* Study Pathways - NEW */}
-      <StudyPathwaysSection locale={locale} />
 
       {/* Why Choose Us */}
       <section className="py-16 md:py-24" id="why-choose-us">
