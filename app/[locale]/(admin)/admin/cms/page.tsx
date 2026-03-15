@@ -102,8 +102,13 @@ export default async function AdminCMSPage() {
         </div>
       </div>
 
-      {/* Editor Component (Optional - can be expanded) */}
-      <CMSEditor />
+      {/* Editor Component - Hidden until a section is selected */}
+      {/* <CMSEditor 
+        initialContent={{}}
+        pageSlug="homepage"
+        sectionKey="hero"
+        locale="en"
+      /> */}
 
       {/* Quick Actions */}
       <div className="rounded-lg border border-border bg-card p-6">
