@@ -92,5 +92,167 @@
     "terms": "Termes et conditions",
     "refund": "Politique de remboursement",
     "rights": "Tous droits réservés."
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue",
+    "nextAction": {
+      "title": "Prochaine action requise",
+      "noActions": "Aucune action en attente. Vous êtes à jour!",
+      "viewDetails": "Voir les détails"
+    },
+    "missingDocuments": {
+      "title": "Documents manquants",
+      "noMissing": "Tous les documents requis ont été soumis!",
+      "uploadNow": "Télécharger maintenant",
+      "documentsNeeded": "documents nécessaires"
+    },
+    "progress": {
+      "title": "Votre progression",
+      "currentStage": "Étape actuelle",
+      "stagesComplete": "Étapes terminées"
+    },
+    "appointments": {
+      "title": "Rendez-vous à venir",
+      "noAppointments": "Aucun rendez-vous à venir",
+      "viewAll": "Voir tous les rendez-vous",
+      "bookNow": "Réserver maintenant"
+    },
+    "recentUpdates": {
+      "title": "Mises à jour récentes",
+      "noUpdates": "Aucune mise à jour récente",
+      "viewAll": "Voir tous les messages"
+    },
+    "stats": {
+      "stagesComplete": "Étapes terminées",
+      "pendingDocuments": "Documents en attente",
+      "upcomingAppointments": "Rendez-vous à venir",
+      "applications": "Candidatures"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "uploadDocument": "Télécharger un document",
+    "categories": {
+      "personal": "Documents personnels",
+      "academic": "Documents académiques",
+      "financial": "Documents financiers",
+      "tests": "Résultats de tests",
+      "other": "Autres documents"
+    },
+    "status": {
+      "missing": "Manquant",
+      "uploaded": "Téléchargé",
+      "underReview": "En cours d'examen",
+      "needsCorrection": "Nécessite une correction",
+      "approved": "Approuvé"
+    },
+    "actions": {
+      "upload": "Télécharger",
+      "reupload": "Retélécharger",
+      "view": "Voir",
+      "download": "Télécharger",
+      "delete": "Supprimer"
+    },
+    "required": "Requis",
+    "optional": "Optionnel",
+    "selectFile": "Sélectionner un fichier",
+    "dragDrop": "ou glisser-déposer",
+    "fileTypes": "PDF, JPG, PNG jusqu'à 10 Mo"
+  },
+  "appointments": {
+    "title": "Rendez-vous",
+    "upcoming": "À venir",
+    "past": "Passés",
+    "noUpcoming": "Aucun rendez-vous à venir",
+    "noPast": "Aucun rendez-vous passé",
+    "bookNew": "Réserver un nouveau rendez-vous",
+    "types": {
+      "consultation": "Consultation initiale",
+      "documentReview": "Révision de documents",
+      "visaPrep": "Préparation au visa",
+      "other": "Autre"
+    },
+    "status": {
+      "scheduled": "Programmé",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "details": {
+      "type": "Type",
+      "date": "Date",
+      "time": "Heure",
+      "duration": "Durée",
+      "location": "Lieu",
+      "notes": "Notes"
+    },
+    "actions": {
+      "reschedule": "Reprogrammer",
+      "cancel": "Annuler",
+      "join": "Rejoindre la réunion"
+    }
+  },
+  "applications": {
+    "title": "Candidatures",
+    "myApplications": "Mes candidatures",
+    "noApplications": "Aucune candidature pour le moment",
+    "addNew": "Ajouter une candidature",
+    "status": {
+      "notStarted": "Non commencé",
+      "inPreparation": "En préparation",
+      "readyToSubmit": "Prêt à soumettre",
+      "submitted": "Soumis",
+      "waitingDecision": "En attente de décision",
+      "accepted": "Accepté",
+      "rejected": "Rejeté",
+      "closed": "Fermé"
+    },
+    "details": {
+      "university": "Université",
+      "program": "Programme",
+      "degree": "Diplôme",
+      "intake": "Rentrée",
+      "status": "Statut",
+      "deadline": "Date limite",
+      "notes": "Notes"
+    }
+  },
+  "messages": {
+    "title": "Messages",
+    "newMessage": "Nouveau message",
+    "noMessages": "Aucun message pour le moment",
+    "sendMessage": "Envoyer un message",
+    "reply": "Répondre",
+    "from": "De",
+    "subject": "Sujet",
+    "date": "Date",
+    "unread": "Non lu"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "download": "Télécharger",
+    "upload": "Télécharger",
+    "submit": "Soumettre",
+    "back": "Retour",
+    "next": "Suivant",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non",
+    "close": "Fermer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "logout": "Déconnexion",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "help": "Aide",
+    "support": "Support"
   }
 }

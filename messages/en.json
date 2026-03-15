@@ -92,5 +92,167 @@
     "terms": "Terms & Conditions",
     "refund": "Refund Policy",
     "rights": "All rights reserved."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "nextAction": {
+      "title": "Next Action Required",
+      "noActions": "No pending actions. You're all caught up!",
+      "viewDetails": "View Details"
+    },
+    "missingDocuments": {
+      "title": "Missing Documents",
+      "noMissing": "All required documents submitted!",
+      "uploadNow": "Upload Now",
+      "documentsNeeded": "documents needed"
+    },
+    "progress": {
+      "title": "Your Progress",
+      "currentStage": "Current Stage",
+      "stagesComplete": "Stages Complete"
+    },
+    "appointments": {
+      "title": "Upcoming Appointments",
+      "noAppointments": "No upcoming appointments",
+      "viewAll": "View All Appointments",
+      "bookNow": "Book Now"
+    },
+    "recentUpdates": {
+      "title": "Recent Updates",
+      "noUpdates": "No recent updates",
+      "viewAll": "View All Messages"
+    },
+    "stats": {
+      "stagesComplete": "Stages Complete",
+      "pendingDocuments": "Pending Documents",
+      "upcomingAppointments": "Upcoming Appointments",
+      "applications": "Applications"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "uploadDocument": "Upload Document",
+    "categories": {
+      "personal": "Personal Documents",
+      "academic": "Academic Documents",
+      "financial": "Financial Documents",
+      "tests": "Test Scores",
+      "other": "Other Documents"
+    },
+    "status": {
+      "missing": "Missing",
+      "uploaded": "Uploaded",
+      "underReview": "Under Review",
+      "needsCorrection": "Needs Correction",
+      "approved": "Approved"
+    },
+    "actions": {
+      "upload": "Upload",
+      "reupload": "Re-upload",
+      "view": "View",
+      "download": "Download",
+      "delete": "Delete"
+    },
+    "required": "Required",
+    "optional": "Optional",
+    "selectFile": "Select File",
+    "dragDrop": "or drag and drop",
+    "fileTypes": "PDF, JPG, PNG up to 10MB"
+  },
+  "appointments": {
+    "title": "Appointments",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "noUpcoming": "No upcoming appointments",
+    "noPast": "No past appointments",
+    "bookNew": "Book New Appointment",
+    "types": {
+      "consultation": "Initial Consultation",
+      "documentReview": "Document Review",
+      "visaPrep": "Visa Preparation",
+      "other": "Other"
+    },
+    "status": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "details": {
+      "type": "Type",
+      "date": "Date",
+      "time": "Time",
+      "duration": "Duration",
+      "location": "Location",
+      "notes": "Notes"
+    },
+    "actions": {
+      "reschedule": "Reschedule",
+      "cancel": "Cancel",
+      "join": "Join Meeting"
+    }
+  },
+  "applications": {
+    "title": "Applications",
+    "myApplications": "My Applications",
+    "noApplications": "No applications yet",
+    "addNew": "Add Application",
+    "status": {
+      "notStarted": "Not Started",
+      "inPreparation": "In Preparation",
+      "readyToSubmit": "Ready to Submit",
+      "submitted": "Submitted",
+      "waitingDecision": "Waiting for Decision",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "closed": "Closed"
+    },
+    "details": {
+      "university": "University",
+      "program": "Program",
+      "degree": "Degree",
+      "intake": "Intake",
+      "status": "Status",
+      "deadline": "Deadline",
+      "notes": "Notes"
+    }
+  },
+  "messages": {
+    "title": "Messages",
+    "newMessage": "New Message",
+    "noMessages": "No messages yet",
+    "sendMessage": "Send Message",
+    "reply": "Reply",
+    "from": "From",
+    "subject": "Subject",
+    "date": "Date",
+    "unread": "Unread"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "download": "Download",
+    "upload": "Upload",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "logout": "Sign Out",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "support": "Support"
   }
 }

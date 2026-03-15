@@ -92,5 +92,167 @@
     "terms": "الشروط والأحكام",
     "refund": "سياسة الاسترداد",
     "rights": "جميع الحقوق محفوظة."
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "welcome": "مرحباً بعودتك",
+    "nextAction": {
+      "title": "الإجراء التالي المطلوب",
+      "noActions": "لا توجد إجراءات معلقة. أنت على اطلاع!",
+      "viewDetails": "عرض التفاصيل"
+    },
+    "missingDocuments": {
+      "title": "الوثائق المفقودة",
+      "noMissing": "تم تقديم جميع الوثائق المطلوبة!",
+      "uploadNow": "تحميل الآن",
+      "documentsNeeded": "وثائق مطلوبة"
+    },
+    "progress": {
+      "title": "تقدمك",
+      "currentStage": "المرحلة الحالية",
+      "stagesComplete": "المراحل المكتملة"
+    },
+    "appointments": {
+      "title": "المواعيد القادمة",
+      "noAppointments": "لا توجد مواعيد قادمة",
+      "viewAll": "عرض جميع المواعيد",
+      "bookNow": "احجز الآن"
+    },
+    "recentUpdates": {
+      "title": "التحديثات الأخيرة",
+      "noUpdates": "لا توجد تحديثات حديثة",
+      "viewAll": "عرض جميع الرسائل"
+    },
+    "stats": {
+      "stagesComplete": "المراحل المكتملة",
+      "pendingDocuments": "الوثائق المعلقة",
+      "upcomingAppointments": "المواعيد القادمة",
+      "applications": "الطلبات"
+    }
+  },
+  "documents": {
+    "title": "الوثائق",
+    "uploadDocument": "تحميل وثيقة",
+    "categories": {
+      "personal": "الوثائق الشخصية",
+      "academic": "الوثائق الأكاديمية",
+      "financial": "الوثائق المالية",
+      "tests": "نتائج الاختبارات",
+      "other": "وثائق أخرى"
+    },
+    "status": {
+      "missing": "مفقود",
+      "uploaded": "تم التحميل",
+      "underReview": "قيد المراجعة",
+      "needsCorrection": "يحتاج إلى تصحيح",
+      "approved": "معتمد"
+    },
+    "actions": {
+      "upload": "تحميل",
+      "reupload": "إعادة التحميل",
+      "view": "عرض",
+      "download": "تنزيل",
+      "delete": "حذف"
+    },
+    "required": "مطلوب",
+    "optional": "اختياري",
+    "selectFile": "اختر ملف",
+    "dragDrop": "أو اسحب وأفلت",
+    "fileTypes": "PDF، JPG، PNG حتى 10 ميجابايت"
+  },
+  "appointments": {
+    "title": "المواعيد",
+    "upcoming": "القادمة",
+    "past": "السابقة",
+    "noUpcoming": "لا توجد مواعيد قادمة",
+    "noPast": "لا توجد مواعيد سابقة",
+    "bookNew": "حجز موعد جديد",
+    "types": {
+      "consultation": "استشارة أولية",
+      "documentReview": "مراجعة الوثائق",
+      "visaPrep": "الإعداد للتأشيرة",
+      "other": "أخرى"
+    },
+    "status": {
+      "scheduled": "مجدول",
+      "completed": "مكتمل",
+      "cancelled": "ملغي"
+    },
+    "details": {
+      "type": "النوع",
+      "date": "التاريخ",
+      "time": "الوقت",
+      "duration": "المدة",
+      "location": "الموقع",
+      "notes": "ملاحظات"
+    },
+    "actions": {
+      "reschedule": "إعادة الجدولة",
+      "cancel": "إلغاء",
+      "join": "الانضمام للاجتماع"
+    }
+  },
+  "applications": {
+    "title": "الطلبات",
+    "myApplications": "طلباتي",
+    "noApplications": "لا توجد طلبات حتى الآن",
+    "addNew": "إضافة طلب",
+    "status": {
+      "notStarted": "لم يبدأ",
+      "inPreparation": "قيد الإعداد",
+      "readyToSubmit": "جاهز للتقديم",
+      "submitted": "مقدم",
+      "waitingDecision": "في انتظار القرار",
+      "accepted": "مقبول",
+      "rejected": "مرفوض",
+      "closed": "مغلق"
+    },
+    "details": {
+      "university": "الجامعة",
+      "program": "البرنامج",
+      "degree": "الشهادة",
+      "intake": "الدفعة",
+      "status": "الحالة",
+      "deadline": "الموعد النهائي",
+      "notes": "ملاحظات"
+    }
+  },
+  "messages": {
+    "title": "الرسائل",
+    "newMessage": "رسالة جديدة",
+    "noMessages": "لا توجد رسائل حتى الآن",
+    "sendMessage": "إرسال رسالة",
+    "reply": "رد",
+    "from": "من",
+    "subject": "الموضوع",
+    "date": "التاريخ",
+    "unread": "غير مقروء"
+  },
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "download": "تنزيل",
+    "upload": "تحميل",
+    "submit": "إرسال",
+    "back": "رجوع",
+    "next": "التالي",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجاح",
+    "confirm": "تأكيد",
+    "yes": "نعم",
+    "no": "لا",
+    "close": "إغلاق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "logout": "تسجيل الخروج",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "help": "مساعدة",
+    "support": "الدعم"
   }
 }
