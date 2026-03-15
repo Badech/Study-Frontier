@@ -89,9 +89,7 @@ export default async function LeadDetailPage({ params }: PageProps) {
             <div className="text-right">
               <div className="text-sm text-muted-foreground">Status</div>
               <div className="mt-1">
-                <StatusBadge status={getStatusColor(lead.status)}>
-                  {lead.status}
-                </StatusBadge>
+                <StatusBadge status={lead.status} />
               </div>
             </div>
           </div>
