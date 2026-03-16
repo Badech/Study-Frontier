@@ -178,9 +178,7 @@ export default async function DocumentsPage({
                         {latestDocData && (
                           <div className="flex items-center gap-1">
                             {getStatusIcon(latestDocData.status)}
-                            <StatusBadge status={getStatusColor(latestDocData.status)} className="text-xs">
-                              {latestDocData.status}
-                            </StatusBadge>
+                            <StatusBadge status={latestDocData.status} className="text-xs" />
                           </div>
                         )}
                       </div>

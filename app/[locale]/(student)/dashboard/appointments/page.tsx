@@ -191,9 +191,7 @@ export default async function AppointmentsPage({
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-medium">{getAppointmentTypeLabel(appt.appointment_type)}</h3>
-                        <StatusBadge status={getStatusColor(appt.status)} className="text-xs">
-                          {appt.status}
-                        </StatusBadge>
+                        <StatusBadge status={appt.status} className="text-xs" />
                       </div>
                       <div className="text-sm text-muted-foreground">
                         {date} at {time}

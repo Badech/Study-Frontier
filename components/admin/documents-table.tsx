@@ -235,9 +235,7 @@ export function DocumentsTable({ documents, onUpdate }: DocumentsTableProps) {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <StatusBadge status={doc.document?.status || 'uploaded'} variant="document">
-                        {doc.document?.status || 'uploaded'}
-                      </StatusBadge>
+                      <StatusBadge status={doc.document?.status || 'uploaded'} variant="document" />
                     </td>
                     <td className="px-6 py-4 text-sm text-muted-foreground">
                       {new Date(doc.uploaded_at).toLocaleDateString()}
