@@ -129,12 +129,7 @@ export default async function AppointmentsPage({
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="text-lg font-semibold">{getAppointmentTypeLabel(appt.appointment_type)}</h3>
-                        <StatusBadge status={getStatusColor(appt.status)} className="text-xs">
-                          <div className="flex items-center gap-1">
-                            {getStatusIcon(appt.status)}
-                            {appt.status}
-                          </div>
-                        </StatusBadge>
+                        <StatusBadge status={appt.status} className="text-xs" />
                       </div>
                       
                       <div className="space-y-2 text-sm text-muted-foreground">
