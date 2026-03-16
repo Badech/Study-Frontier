@@ -123,7 +123,7 @@ export function PackagesSection({ locale }: PackagesSectionProps) {
               <Button
                 asChild
                 className="w-full"
-                variant={pkg.highlighted ? 'default' : 'outline'}
+                variant={pkg.highlighted ? 'primary' : 'outline'}
                 size="lg"
               >
                 <Link href={`/${locale}/assessment`}>

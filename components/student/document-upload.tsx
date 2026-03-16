@@ -97,7 +97,7 @@ export function DocumentUpload({ studentId, documentType, existingDocument }: Si
         <Button
           type="button"
           size="sm"
-          variant={existingDocument ? "outline" : "default"}
+          variant={existingDocument ? "outline" : "primary"}
           disabled={isUploading}
           onClick={() => document.getElementById(`upload-${documentType}`)?.click()}
         >

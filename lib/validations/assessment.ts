@@ -16,7 +16,7 @@ export const assessmentStep1Schema = z.object({
   email: z.string().email('Please enter a valid email address'),
   city: z.string().min(2, 'City is required').max(100),
   nationality: z.string().min(2, 'Nationality is required').max(100),
-  age: z.coerce.number().min(16, 'You must be at least 16 years old').max(100),
+  age: z.number().min(16, 'You must be at least 16 years old').max(100),
   preferredDestination: z.string().min(2, 'Please select a destination'),
   desiredIntake: z.string().min(2, 'Please select an intake period'),
 });
