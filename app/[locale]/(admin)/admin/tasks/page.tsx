@@ -26,9 +26,9 @@ export default async function AdminTasksPage() {
   // Calculate stats
   const stats = {
     total: tasks.length,
-    pending: tasks.filter(t => t.status === 'pending').length,
-    in_progress: tasks.filter(t => t.status === 'in_progress').length,
-    overdue: tasks.filter(t => t.due_date && new Date(t.due_date) < new Date()).length,
+    pending: tasks.filter(t => t.type === 'overdue_task' || t.type === 'document_review').length,
+    in_progress: tasks.filter(t => t.type === 'pending_payment').length,
+    overdue: tasks.filter(t => t.dueDate && new Date(t.dueDate) < new Date()).length,
   };
 
   return (
